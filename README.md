@@ -1,4 +1,4 @@
-# store-admin
+# sunshine-store-admin
 
 ## Человеко-машинное взаимодействие
 
