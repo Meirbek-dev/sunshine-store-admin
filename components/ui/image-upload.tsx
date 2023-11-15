@@ -50,7 +50,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 <Image fill className="object-cover" alt="Изображение" src={url}/>
             </div>))}
         </div>
-        <CldUploadWidget onUpload={onUpload} uploadPreset="wr611npy">
+        <CldUploadWidget onUpload={onUpload} uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_IMAGE_UPLOAD_PRESET}>
             {({open}) => {
                 const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
                     e.preventDefault();
