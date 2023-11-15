@@ -80,7 +80,7 @@ export async function PATCH(req: Request, {params}: { params: { productId: strin
             return new NextResponse("Укажите название.", {status: 400});
         }
 
-        if (images?.length) {
+        if (!images || !images.length) {
             return new NextResponse("Необходимо загрузить изображение", {status: 400});
         }
 

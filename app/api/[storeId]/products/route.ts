@@ -19,7 +19,7 @@ export async function POST(req: Request, {params}: { params: { storeId: string; 
             return new NextResponse("Укажите название.", {status: 400});
         }
 
-        if (images?.length) {
+        if (!images || !images.length) {
             return new NextResponse("Необходимо загрузить изображение", {status: 400});
         }
 
