@@ -30,7 +30,7 @@ export async function POST(req: Request) {
             where: {
                 id: session?.metadata?.orderId,
             }, data: {
-                isPaid: true, address: addressString, phone: session?.customer_details?.phone ?? '',
+                isPaid: true, address: addressString, phone: session?.customer_details?.phone || '',
             }, include: {
                 orderItems: true,
             }
