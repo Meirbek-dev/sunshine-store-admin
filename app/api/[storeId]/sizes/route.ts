@@ -1,70 +1,85 @@
-import {NextResponse} from 'next/server';
-import {auth} from '@clerk/nextjs';
+import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs";
 
-import prismadb from '@/lib/prismadb';
+import prismadb from "@/lib/prismadb";
 
-export async function POST(req: Request, {params}: { params: { storeId: string; }; }) {
-    try {
-        const {userId} = auth();
+export async function POST(
+	req: Request,
+	{ params }: { params: { storeId: string } },
+) {
+	try {
+		const { userId } = auth();
 
-        const body = await req.json();
+		const body = await req.json();
 
-        const {name, value} = body;
+		const { name, value } = body;
 
-        if (!userId) {
-            return new NextResponse("Пользователь не аутентифицирован", {status: 403});
-        }
+		if (!userId) {
+			return new NextResponse("Пользователь не аутентифицирован", {
+				status: 403,
+			});
+		}
 
-        if (!name) {
-            return new NextResponse("Укажите название.", {status: 400});
-        }
+		if (!name) {
+			return new NextResponse("Укажите название.", { status: 400 });
+		}
 
-        if (!value) {
-            return new NextResponse("Укажите значение.", {status: 400});
-        }
+		if (!value) {
+			return new NextResponse("Укажите значение.", { status: 400 });
+		}
 
-        if (!params.storeId) {
-            return new NextResponse("Необходим идентификатор магазина.", {status: 400});
-        }
+		if (!params.storeId) {
+			return new NextResponse("Необходим идентификатор магазина.", {
+				status: 400,
+			});
+		}
 
-        const storeByUserId = await prismadb.store.findFirst({
-            where: {
-                id: params.storeId, userId
-            }
-        });
+		const storeByUserId = await prismadb.store.findFirst({
+			where: {
+				id: params.storeId,
+				userId,
+			},
+		});
 
-        if (!storeByUserId) {
-            return new NextResponse("Не авторизованный доступ", {status: 405});
-        }
+		if (!storeByUserId) {
+			return new NextResponse("Не авторизованный доступ", { status: 405 });
+		}
 
-        const size = await prismadb.size.create({
-            data: {
-                name, value, storeId: params.storeId
-            }
-        });
+		const size = await prismadb.size.create({
+			data: {
+				name,
+				value,
+				storeId: params.storeId,
+			},
+		});
 
-        return NextResponse.json(size);
-    } catch (error) {
-        console.log('[SIZES_POST]', error);
-        return new NextResponse("Ошибка сервера", {status: 500});
-    }
-};
+		return NextResponse.json(size);
+	} catch (error) {
+		console.log("[SIZES_POST]", error);
+		return new NextResponse("Ошибка сервера", { status: 500 });
+	}
+}
 
-export async function GET(req: Request, {params}: { params: { storeId: string; }; }) {
-    try {
-        if (!params.storeId) {
-            return new NextResponse("Необходим идентификатор магазина.", {status: 400});
-        }
+export async function GET(
+	req: Request,
+	{ params }: { params: { storeId: string } },
+) {
+	try {
+		if (!params.storeId) {
+			return new NextResponse("Необходим идентификатор магазина.", {
+				status: 400,
+			});
+		}
 
-        const sizes = await prismadb.size.findMany({
-            where: {
-                storeId: params.storeId
-            }
-        });
+		const sizes = await prismadb.size.findMany({
+			where: {
+				storeId: params.storeId,
+			},
+		});
 
-        return NextResponse.json(sizes);
-    } catch (error) {
-        console.log('[SIZES_GET]', error);
-        return new NextResponse("Ошибка сервера", {status: 500});
-    }
-};
+		return NextResponse.json(sizes);
+	} catch (error) {
+		console.log("[SIZES_GET]", error);
+		return new NextResponse("Ошибка сервера", { status: 500 });
+	}
+}
