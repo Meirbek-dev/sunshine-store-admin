@@ -3,11 +3,13 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev",
 		"build": "next build",
-		"start": "next start",
+		"db:push": "prisma db push",
+		"db:studio": "prisma studio",
+		"dev": "next dev",
+		"postinstall": "prisma generate",
 		"lint": "next lint",
-		"postinstall": "prisma generate"
+		"start": "next start"
 	},
 	"dependencies": {
 		"@clerk/localizations": "^1.26.13",
@@ -30,7 +32,7 @@
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.0",
 		"cmdk": "^0.2.0",
-		"date-fns": "^3.2.0",
+		"date-fns": "^3.3.0",
 		"lucide-react": "^0.312.0",
 		"next": "^14.1.0",
 		"next-cloudinary": "^5.20.0",
@@ -45,7 +47,7 @@
 		"tailwind-merge": "^2.2.0",
 		"tailwindcss-animate": "^1.0.7",
 		"zod": "^3.22.4",
-		"zustand": "^4.4.7"
+		"zustand": "^4.5.0"
 	},
 	"devDependencies": {
 		"@types/node": "^20.11.5",
