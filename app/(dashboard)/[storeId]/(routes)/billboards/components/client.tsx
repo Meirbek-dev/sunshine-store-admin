@@ -9,7 +9,7 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { ApiList } from "@/components/ui/api-list";
 
-import { BillboardColumn, columns } from "./columns";
+import { type BillboardColumn, columns } from "./columns";
 
 interface BillboardClientProps {
 	data: BillboardColumn[];

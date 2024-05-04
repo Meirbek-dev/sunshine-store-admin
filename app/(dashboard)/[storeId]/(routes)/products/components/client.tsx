@@ -9,7 +9,7 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { ApiList } from "@/components/ui/api-list";
 
-import { columns, ProductColumn } from "./columns";
+import { columns, type ProductColumn } from "./columns";
 
 interface ProductsClientProps {
 	data: ProductColumn[];

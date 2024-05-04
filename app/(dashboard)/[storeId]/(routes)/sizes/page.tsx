@@ -2,7 +2,7 @@ import { format } from "date-fns";
 
 import prismadb from "@/lib/prismadb";
 
-import { SizeColumn } from "./components/columns";
+import type { SizeColumn } from "./components/columns";
 import { SizesClient } from "./components/client";
 
 const SizesPage = async ({ params }: { params: { storeId: string } }) => {

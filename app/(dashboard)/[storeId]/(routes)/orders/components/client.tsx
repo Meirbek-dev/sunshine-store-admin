@@ -4,7 +4,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
-import { columns, OrderColumn } from "./columns";
+import { columns, type OrderColumn } from "./columns";
 
 interface OrderClientProps {
 	data: OrderColumn[];

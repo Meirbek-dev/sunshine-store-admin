@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AlertModal } from "@/components/modals/alert-modal";
 
-import { BillboardColumn } from "./columns";
+import type { BillboardColumn } from "./columns";
 
 interface CellActionProps {
 	data: BillboardColumn;

@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Trash } from "lucide-react";
-import { Billboard } from "@prisma/client";
+import type { Billboard } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
@@ -74,7 +74,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
 			router.refresh();
 			router.push(`/${params.storeId}/billboards`);
 			toast.success(toastMessage);
-		} catch (error: any) {
+		} catch (error) {
 			toast.error("Что-то пошло не так.");
 		} finally {
 			setLoading(false);
@@ -90,7 +90,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
 			router.refresh();
 			router.push(`/${params.storeId}/billboards`);
 			toast.success("Биллборд удален.");
-		} catch (error: any) {
+		} catch (error) {
 			toast.error(
 				"Убедитесь, что вы удалили все категории, использующие этот билборд.",
 			);

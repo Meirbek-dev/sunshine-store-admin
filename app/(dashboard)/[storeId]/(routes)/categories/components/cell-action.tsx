@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AlertModal } from "@/components/modals/alert-modal";
 
-import { CategoryColumn } from "./columns";
+import type { CategoryColumn } from "./columns";
 
 interface CellActionProps {
 	data: CategoryColumn;

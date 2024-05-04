@@ -1,4 +1,4 @@
-import Stripe from "stripe";
+import type Stripe from "stripe";
 import { NextResponse } from "next/server";
 
 import { stripe } from "@/lib/stripe";
@@ -36,7 +36,7 @@ export async function POST(
 
 	const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
-	products.forEach((product: any) => {
+	for (const product of products) {
 		lineItems.push({
 			quantity: 1,
 			price_data: {
@@ -47,7 +47,7 @@ export async function POST(
 				unit_amount: product.price.toNumber() * 100,
 			},
 		});
-	});
+	}
 
 	const order = await prismadb.order.create({
 		data: {

@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import prismadb from "@/lib/prismadb";
 
 import { ProductsClient } from "./components/client";
-import { ProductColumn } from "./components/columns";
+import type { ProductColumn } from "./components/columns";
 
 const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
 	const products = await prismadb.product.findMany({

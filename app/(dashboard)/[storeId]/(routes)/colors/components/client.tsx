@@ -9,7 +9,7 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { ApiList } from "@/components/ui/api-list";
 
-import { ColorColumn, columns } from "./columns";
+import { type ColorColumn, columns } from "./columns";
 
 interface ColorClientProps {
 	data: ColorColumn[];

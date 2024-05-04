@@ -16,7 +16,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { ProductColumn } from "./columns";
+import type { ProductColumn } from "./columns";
 
 interface CellActionProps {
 	data: ProductColumn;
