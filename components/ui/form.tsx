@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useMemo } from "react";
 import * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
 import {
@@ -33,9 +32,8 @@ const FormField = <
 >({
 	...props
 }: ControllerProps<TFieldValues, TName>) => {
-	const obj = useMemo(() => ({ name: props.name }), [props.name]);
 	return (
-		<FormFieldContext.Provider value={obj}>
+		<FormFieldContext.Provider value={{ name: props.name }}>
 			<Controller {...props} />
 		</FormFieldContext.Provider>
 	);
@@ -77,9 +75,9 @@ const FormItem = React.forwardRef<
 	React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
 	const id = React.useId();
-	const obj = useMemo(() => ({ id }), [id]);
+
 	return (
-		<FormItemContext.Provider value={obj}>
+		<FormItemContext.Provider value={{ id }}>
 			<div ref={ref} className={cn("space-y-2", className)} {...props} />
 		</FormItemContext.Provider>
 	);
@@ -115,7 +113,9 @@ const FormControl = React.forwardRef<
 			ref={ref}
 			id={formItemId}
 			aria-describedby={
-				error ? `${formDescriptionId} ${formMessageId}` : `${formDescriptionId}`
+				!error
+					? `${formDescriptionId}`
+					: `${formDescriptionId} ${formMessageId}`
 			}
 			aria-invalid={!!error}
 			{...props}
