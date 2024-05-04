@@ -51,7 +51,8 @@ export const getGraphRevenue = async (
 	];
 
 	for (const month in monthlyRevenue) {
-		graphData[parseInt(month)].total = monthlyRevenue[parseInt(month)];
+		graphData[Number.parseInt(month)].total =
+			monthlyRevenue[Number.parseInt(month)];
 	}
 
 	return graphData;
