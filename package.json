@@ -12,7 +12,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@clerk/localizations": "^2.3.0",
+    "@clerk/localizations": "^2.3.1",
     "@clerk/nextjs": "^4.30.1",
     "@hookform/resolvers": "^3.3.4",
     "@prisma/client": "^5.13.0",
@@ -46,7 +46,7 @@
     "stripe": "^15.5.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.23.7",
+    "zod": "^3.23.8",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
