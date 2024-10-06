@@ -3,9 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Store {
@@ -57,7 +56,7 @@ model Product {
   categoryId String // Foreign Key to Category
   category   Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
   name       String
-  price      Decimal
+  price      Float
   isFeatured Boolean     @default(false)
   isArchived Boolean     @default(false)
   sizeId     String // Foreign Key to Size

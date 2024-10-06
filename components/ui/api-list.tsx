@@ -1,47 +1,40 @@
 "use client";
 
-import {ApiAlert} from "@/components/ui/api-alert";
-import {useOrigin} from "@/hooks/use-origin";
-import {useParams} from "next/navigation";
+import { useParams } from "next/navigation";
 
-interface ApiListProps {
-    entityName: string;
-    entityIdName: string;
+import { ApiAlert } from "@/components/ui/api-alert";
+import { useOrigin } from "@/hooks/use-origin";
+
+interface ApiListProperties {
+  entityName: string;
+  entityIdName: string;
 }
 
-export const ApiList: React.FC<ApiListProps> = ({
-                                                    entityName, entityIdName,
-                                                }) => {
-    const params = useParams();
-    const origin = useOrigin();
+export const ApiList: React.FC<ApiListProperties> = ({ entityName, entityIdName }) => {
+  const parameters = useParams();
+  const origin = useOrigin();
 
-    const baseUrl = `${origin}/api/${params.storeId}`;
+  const baseUrl = `${origin}/api/${parameters.storeId}`;
 
-    return (<>
-        <ApiAlert
-            title="GET"
-            variant="public"
-            description={`${baseUrl}/${entityName}`}
-        />
-        <ApiAlert
-            title="GET"
-            variant="public"
-            description={`${baseUrl}/${entityName}/{${entityIdName}}`}
-        />
-        <ApiAlert
-            title="POST"
-            variant="admin"
-            description={`${baseUrl}/${entityName}`}
-        />
-        <ApiAlert
-            title="PATCH"
-            variant="admin"
-            description={`${baseUrl}/${entityName}/{${entityIdName}}`}
-        />
-        <ApiAlert
-            title="DELETE"
-            variant="admin"
-            description={`${baseUrl}/${entityName}/{${entityIdName}}`}
-        />
-    </>);
+  return (
+    <>
+      <ApiAlert title="GET" variant="public" description={`${baseUrl}/${entityName}`} />
+      <ApiAlert
+        title="GET"
+        variant="public"
+        description={`${baseUrl}/${entityName}/{${entityIdName}}`}
+      />
+      <ApiAlert title="POST" variant="admin" description={`${baseUrl}/${entityName}`} />
+      <ApiAlert
+        title="PATCH"
+        variant="admin"
+        description={`${baseUrl}/${entityName}/{${entityIdName}}`}
+      />
+      <ApiAlert
+        title="DELETE"
+        variant="admin"
+        description={`${baseUrl}/${entityName}/{${entityIdName}}`}
+      />
+    </>
+  );
 };
