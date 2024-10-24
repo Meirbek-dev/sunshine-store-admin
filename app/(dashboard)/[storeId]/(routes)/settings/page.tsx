@@ -5,8 +5,9 @@ import prismadb from "@/lib/prismadb";
 
 import { SettingsForm } from "./components/settings-form";
 
-const SettingsPage = async ({ params }: { params: { storeId: string } }) => {
-  const { userId }: { userId: string | null } = auth();
+const SettingsPage = async (props: { params: Promise<{ storeId: string }> }) => {
+  const params = await props.params;
+  const { userId }: { userId: string | null } = await auth();
 
   if (!userId) {
     redirect("/sign-in");

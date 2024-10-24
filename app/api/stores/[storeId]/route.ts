@@ -3,9 +3,10 @@ import { NextResponse } from "next/server";
 
 import prismadb from "@/lib/prismadb";
 
-export async function PATCH(request: Request, { params }: { params: { storeId: string } }) {
+export async function PATCH(request: Request, props: { params: Promise<{ storeId: string }> }) {
+  const params = await props.params;
   try {
-    const { userId }: { userId: string | null } = auth();
+    const { userId }: { userId: string | null } = await auth();
     const body = await request.json();
 
     const { name } = body;
@@ -43,9 +44,10 @@ export async function PATCH(request: Request, { params }: { params: { storeId: s
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { storeId: string } }) {
+export async function DELETE(request: Request, props: { params: Promise<{ storeId: string }> }) {
+  const params = await props.params;
   try {
-    const { userId }: { userId: string | null } = auth();
+    const { userId }: { userId: string | null } = await auth();
 
     if (!userId) {
       return new NextResponse("Пользователь не аутентифицирован", {

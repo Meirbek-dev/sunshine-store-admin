@@ -14,7 +14,8 @@ export async function OPTIONS() {
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
-export async function POST(request: Request, { params }: { params: { storeId: string } }) {
+export async function POST(request: Request, props: { params: Promise<{ storeId: string }> }) {
+  const params = await props.params;
   const { productIds } = await request.json();
 
   if (!productIds || productIds.length === 0) {

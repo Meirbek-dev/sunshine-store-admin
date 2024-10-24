@@ -5,7 +5,8 @@ import prismadb from "@/lib/prismadb";
 import { ProductsClient } from "./components/client";
 import type { ProductColumn } from "./components/columns";
 
-const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
+const ProductsPage = async (props: { params: Promise<{ storeId: string }> }) => {
+  const params = await props.params;
   const products = await prismadb.product.findMany({
     where: {
       storeId: params.storeId,

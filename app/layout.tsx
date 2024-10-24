@@ -18,7 +18,7 @@ export const metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider localization={ruRU} afterSignOutUrl="/">
-      <html lang="ru">
+      <html lang="ru" suppressHydrationWarning>
         <body className={inter.className}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ToastProvider />

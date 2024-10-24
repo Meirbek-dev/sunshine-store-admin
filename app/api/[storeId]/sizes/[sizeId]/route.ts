@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 
 import prismadb from "@/lib/prismadb";
 
-export async function GET(request: Request, { params }: { params: { sizeId: string } }) {
+export async function GET(request: Request, props: { params: Promise<{ sizeId: string }> }) {
+  const params = await props.params;
   try {
     if (!params.sizeId) {
       return new NextResponse("Необходим идентификатор размера.", {
@@ -26,10 +27,11 @@ export async function GET(request: Request, { params }: { params: { sizeId: stri
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { sizeId: string; storeId: string } },
+  props: { params: Promise<{ sizeId: string; storeId: string }> },
 ) {
+  const params = await props.params;
   try {
-    const { userId }: { userId: string | null } = auth();
+    const { userId }: { userId: string | null } = await auth();
 
     if (!userId) {
       return new NextResponse("Пользователь не аутентифицирован", {
@@ -69,10 +71,11 @@ export async function DELETE(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { sizeId: string; storeId: string } },
+  props: { params: Promise<{ sizeId: string; storeId: string }> },
 ) {
+  const params = await props.params;
   try {
-    const { userId }: { userId: string | null } = auth();
+    const { userId }: { userId: string | null } = await auth();
 
     const body = await request.json();
 

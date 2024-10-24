@@ -3,9 +3,10 @@ import { NextResponse } from "next/server";
 
 import prismadb from "@/lib/prismadb";
 
-export async function POST(request: Request, { params }: { params: { storeId: string } }) {
+export async function POST(request: Request, props: { params: Promise<{ storeId: string }> }) {
+  const params = await props.params;
   try {
-    const { userId }: { userId: string | null } = auth();
+    const { userId }: { userId: string | null } = await auth();
 
     const body = await request.json();
 
@@ -59,7 +60,8 @@ export async function POST(request: Request, { params }: { params: { storeId: st
   }
 }
 
-export async function GET(request: Request, { params }: { params: { storeId: string } }) {
+export async function GET(request: Request, props: { params: Promise<{ storeId: string }> }) {
+  const params = await props.params;
   try {
     if (!params.storeId) {
       return new NextResponse("Необходим идентификатор магазина.", {

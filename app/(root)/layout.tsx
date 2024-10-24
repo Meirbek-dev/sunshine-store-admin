@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import prismadb from "@/lib/prismadb";
 
 export default async function SetupLayout({ children }: { children: React.ReactNode }) {
-  const { userId }: { userId: string | null } = auth();
+  const { userId }: { userId: string | null } = await auth();
 
   if (!userId) {
     redirect("/sign-in");

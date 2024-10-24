@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 
 import prismadb from "@/lib/prismadb";
 
-export async function GET(request: Request, { params }: { params: { categoryId: string } }) {
+export async function GET(request: Request, props: { params: Promise<{ categoryId: string }> }) {
+  const params = await props.params;
   try {
     if (!params.categoryId) {
       return new NextResponse("Необходим идентификатор категории.", {
@@ -29,10 +30,11 @@ export async function GET(request: Request, { params }: { params: { categoryId: 
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { categoryId: string; storeId: string } },
+  props: { params: Promise<{ categoryId: string; storeId: string }> },
 ) {
+  const params = await props.params;
   try {
-    const { userId }: { userId: string | null } = auth();
+    const { userId }: { userId: string | null } = await auth();
 
     if (!userId) {
       return new NextResponse("Пользователь не аутентифицирован", {
@@ -72,10 +74,11 @@ export async function DELETE(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { categoryId: string; storeId: string } },
+  props: { params: Promise<{ categoryId: string; storeId: string }> },
 ) {
+  const params = await props.params;
   try {
-    const { userId }: { userId: string | null } = auth();
+    const { userId }: { userId: string | null } = await auth();
 
     const body = await request.json();
 

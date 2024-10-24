@@ -55,3 +55,5 @@ temp
 .eslintmdcache
 .stylelintcache
 .prettiercache
+
+.package-lock.json
