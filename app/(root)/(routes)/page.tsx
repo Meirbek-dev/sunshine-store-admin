@@ -1,13 +1,11 @@
 'use client';
 
 import { useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 
 import { useStoreModal } from '@/hooks/use-store-modal';
 
 // Компонент настройки магазина
 const SetupPage = () => {
-  const router = useRouter();
 
   // Используем селекторы из хука с мемоизацией
   const { onOpen, isOpen } = useStoreModal(
