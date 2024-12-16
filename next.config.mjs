@@ -10,7 +10,7 @@ const nextConfig = {
         hostname: 'res.cloudinary.com',
       },
     ],
-    minimumCacheTTL: 1500000
+    minimumCacheTTL: 1500000,
   },
   typescript: {
     ignoreBuildErrors: true,

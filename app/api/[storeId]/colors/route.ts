@@ -8,7 +8,8 @@ import { errorResponses } from '@/lib/error-responses';
 // Схема валидации для создания цвета
 const colorSchema = z.object({
   name: z.string().min(2, 'Название должно содержать минимум 2 символа'),
-  value: z.string()
+  value: z
+    .string()
     .min(4, 'Неверный формат цвета')
     .max(9, 'Неверный формат цвета')
     .regex(/^#/, { message: 'Цвет должен начинаться с #' }),

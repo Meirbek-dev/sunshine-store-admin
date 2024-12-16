@@ -63,7 +63,6 @@ export async function DELETE(
       return errorResponses.unauthorized();
     }
 
-    // Используем транзакцию для обеспечения целостности данных
     const product = await prismadb.$transaction(async (tx) => {
       const storeByUserId = await tx.store.findFirst({
         where: { id: params.storeId, userId },

@@ -53,7 +53,6 @@ export async function DELETE(
       return new NextResponse('Необходим идентификатор размера.', { status: 400 });
     }
 
-    // Используем транзакцию для обеспечения целостности данных
     const size = await prismadb.$transaction(async (tx) => {
       const storeByUserId = await tx.store.findFirst({
         where: {
