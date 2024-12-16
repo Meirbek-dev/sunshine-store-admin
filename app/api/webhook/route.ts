@@ -39,7 +39,9 @@ export async function POST(request: Request) {
 
   // Validate session and metadata
   if (!session?.metadata?.orderId) {
-    return new NextResponse('Missing order ID in session metadata', { status: 400 });
+    return new NextResponse('Missing order ID in session metadata', {
+      status: 400,
+    });
   }
 
   const orderId = session.metadata.orderId;

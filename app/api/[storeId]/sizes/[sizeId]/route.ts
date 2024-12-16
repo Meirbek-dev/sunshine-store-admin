@@ -17,12 +17,20 @@ export async function GET(request: Request, props: { params: Promise<{ sizeId: s
     const params = await props.params;
 
     if (!params.sizeId) {
-      return new NextResponse('Необходим идентификатор размера.', { status: 400 });
+      return new NextResponse('Необходим идентификатор размера.', {
+        status: 400,
+      });
     }
 
     const size = await prismadb.size.findUnique({
       where: { id: params.sizeId },
-      select: { id: true, name: true, value: true, createdAt: true, updatedAt: true },
+      select: {
+        id: true,
+        name: true,
+        value: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
 
     if (!size) {
@@ -50,7 +58,9 @@ export async function DELETE(
     }
 
     if (!params.sizeId) {
-      return new NextResponse('Необходим идентификатор размера.', { status: 400 });
+      return new NextResponse('Необходим идентификатор размера.', {
+        status: 400,
+      });
     }
 
     const size = await prismadb.$transaction(async (tx) => {
@@ -95,7 +105,9 @@ export async function PATCH(
     }
 
     if (!params.sizeId) {
-      return new NextResponse('Необходим идентификатор размера.', { status: 400 });
+      return new NextResponse('Необходим идентификатор размера.', {
+        status: 400,
+      });
     }
 
     // Валидация входных данных

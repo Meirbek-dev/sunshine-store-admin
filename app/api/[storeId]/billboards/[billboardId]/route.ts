@@ -22,11 +22,7 @@ const getBillboards = cache(async (storeId: string) => {
 
 // Расширенная схема валидации для создания билборда
 const billboardSchema = z.object({
-  label: z
-    .string()
-    .min(1, 'Укажите метку')
-    .max(100, 'Метка слишком длинная')
-    .trim(),
+  label: z.string().min(1, 'Укажите метку').max(100, 'Метка слишком длинная').trim(),
   imageUrl: z
     .string()
     .url('Укажите корректный URL изображения')
@@ -108,9 +104,9 @@ export async function POST(request: Request, props: { params: Promise<{ storeId:
       status: 201,
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
-      }
+        Pragma: 'no-cache',
+        Expires: '0',
+      },
     });
   } catch (error) {
     console.error('[BILLBOARDS_POST]', error);
