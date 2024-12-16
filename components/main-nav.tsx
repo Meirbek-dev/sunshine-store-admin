@@ -1,15 +1,20 @@
 'use client';
 
+import { useMemo } from 'react';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 
-export function MainNav({ className, ...properties }: React.HTMLAttributes<HTMLElement>) {
+interface MainNavProps extends React.HTMLAttributes<HTMLElement> {
+  className?: string;
+}
+
+export function MainNav({ className, ...properties }: MainNavProps) {
   const pathname = usePathname();
   const parameters = useParams();
 
-  const routes = [
+  const routes = useMemo(() => [
     {
       href: `/${parameters.storeId}`,
       label: 'Обзор',
@@ -50,11 +55,12 @@ export function MainNav({ className, ...properties }: React.HTMLAttributes<HTMLE
       label: 'Настройки',
       active: pathname === `/${parameters.storeId}/settings`,
     },
-  ];
+  ], [parameters.storeId, pathname]);
 
   return (
     <nav
       className={cn('flex items-center space-x-4 lg:space-x-6', className)}
+      aria-label="Main navigation"
       {...properties}
     >
       {routes.map((route) => (
@@ -63,8 +69,9 @@ export function MainNav({ className, ...properties }: React.HTMLAttributes<HTMLE
           href={route.href}
           className={cn(
             'text-sm font-medium transition-colors hover:text-primary',
-            route.active ? 'text-black dark:text-white' : 'text-muted-foreground',
+            route.active ? 'text-black dark:text-white' : 'text-muted-foreground'
           )}
+          aria-current={route.active ? 'page' : undefined}
         >
           {route.label}
         </Link>
