@@ -1,30 +1,49 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
 
 import prismadb from '@/lib/prismadb';
+import { errorResponses } from '@/lib/error-responses';
+
+// Схема валидации для обновления категории
+const updateCategorySchema = z.object({
+  name: z.string().min(2, 'Название должно содержать минимум 2 символа'),
+  billboardId: z.string().uuid('Неверный формат идентификатора билборда'),
+});
 
 export async function GET(request: Request, props: { params: Promise<{ categoryId: string }> }) {
-  const params = await props.params;
   try {
+    const params = await props.params;
+
     if (!params.categoryId) {
-      return new NextResponse('Необходим идентификатор категории.', {
-        status: 400,
-      });
+      return errorResponses.badRequest('Необходим идентификатор категории');
     }
 
     const category = await prismadb.category.findUnique({
-      where: {
-        id: params.categoryId,
-      },
-      include: {
-        billboard: true,
+      where: { id: params.categoryId },
+      select: {
+        id: true,
+        name: true,
+        billboard: {
+          select: {
+            id: true,
+            label: true,
+            imageUrl: true,
+          },
+        },
+        createdAt: true,
+        updatedAt: true,
       },
     });
 
+    if (!category) {
+      return errorResponses.notFound('Категория не найдена');
+    }
+
     return NextResponse.json(category);
   } catch (error) {
-    console.log('[CATEGORY_GET]', error);
-    return new NextResponse('Ошибка сервера', { status: 500 });
+    console.error('[CATEGORY_GET]', error);
+    return errorResponses.serverError(error);
   }
 }
 
@@ -32,43 +51,62 @@ export async function DELETE(
   request: Request,
   props: { params: Promise<{ categoryId: string; storeId: string }> },
 ) {
-  const params = await props.params;
   try {
-    const { userId }: { userId: string | null } = await auth();
+    const params = await props.params;
+    const { userId } = await auth();
 
     if (!userId) {
-      return new NextResponse('Пользователь не аутентифицирован', {
-        status: 403,
-      });
+      return errorResponses.unauthorized();
     }
 
     if (!params.categoryId) {
-      return new NextResponse('Необходим идентификатор категории.', {
-        status: 400,
+      return errorResponses.badRequest('Необходим идентификатор категории');
+    }
+
+    const category = await prismadb.$transaction(async (tx) => {
+      const storeByUserId = await tx.store.findFirst({
+        where: {
+          id: params.storeId,
+          userId,
+        },
+        select: { id: true },
       });
-    }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
+      if (!storeByUserId) {
+        throw new Error('Не авторизованный доступ');
+      }
 
-    if (!storeByUserId) {
-      return new NextResponse('Не авторизованный доступ', { status: 405 });
-    }
+      // Проверяем наличие связанных продуктов
+      const productsCount = await tx.product.count({
+        where: { categoryId: params.categoryId },
+      });
 
-    const category = await prismadb.category.delete({
-      where: {
-        id: params.categoryId,
-      },
+      if (productsCount > 0) {
+        throw new Error('Нельзя удалить категорию с привязанными товарами');
+      }
+
+      return tx.category.delete({
+        where: { id: params.categoryId },
+        select: {
+          id: true,
+          name: true,
+          createdAt: true,
+        },
+      });
     });
 
     return NextResponse.json(category);
   } catch (error) {
-    console.log('[CATEGORY_DELETE]', error);
-    return new NextResponse('Ошибка сервера', { status: 500 });
+    console.error('[CATEGORY_DELETE]', error);
+    if (error instanceof Error) {
+      if (error.message === 'Не авторизованный доступ') {
+        return errorResponses.forbidden();
+      }
+      if (error.message === 'Нельзя удалить категорию с привязанными товарами') {
+        return errorResponses.badRequest(error.message);
+      }
+    }
+    return errorResponses.serverError(error);
   }
 }
 
@@ -76,60 +114,72 @@ export async function PATCH(
   request: Request,
   props: { params: Promise<{ categoryId: string; storeId: string }> },
 ) {
-  const params = await props.params;
   try {
-    const { userId }: { userId: string | null } = await auth();
-
-    const body = await request.json();
-
-    const { name, billboardId } = body;
+    const params = await props.params;
+    const { userId } = await auth();
 
     if (!userId) {
-      return new NextResponse('Пользователь не аутентифицирован', {
-        status: 403,
+      return errorResponses.unauthorized();
+    }
+
+    const body = await request.json();
+    const validationResult = updateCategorySchema.safeParse(body);
+
+    if (!validationResult.success) {
+      return errorResponses.validationError(validationResult.error.message);
+    }
+
+    const category = await prismadb.$transaction(async (tx) => {
+      const storeByUserId = await tx.store.findFirst({
+        where: {
+          id: params.storeId,
+          userId,
+        },
+        select: { id: true },
       });
-    }
 
-    if (!billboardId) {
-      return new NextResponse('Необходим идентификатор билборда.', {
-        status: 400,
+      if (!storeByUserId) {
+        throw new Error('Не авторизованный доступ');
+      }
+
+      // Проверяем существование билборда
+      const billboard = await tx.billboard.findUnique({
+        where: { id: validationResult.data.billboardId },
+        select: { id: true },
       });
-    }
 
-    if (!name) {
-      return new NextResponse('Укажите название.', { status: 400 });
-    }
+      if (!billboard) {
+        throw new Error('Билборд не найден');
+      }
 
-    if (!params.categoryId) {
-      return new NextResponse('Необходим идентификатор категории.', {
-        status: 400,
+      return tx.category.update({
+        where: { id: params.categoryId },
+        data: validationResult.data,
+        select: {
+          id: true,
+          name: true,
+          billboard: {
+            select: {
+              id: true,
+              label: true,
+            },
+          },
+          updatedAt: true,
+        },
       });
-    }
-
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    });
-
-    if (!storeByUserId) {
-      return new NextResponse('Не авторизованный доступ', { status: 405 });
-    }
-
-    const category = await prismadb.category.update({
-      where: {
-        id: params.categoryId,
-      },
-      data: {
-        name,
-        billboardId,
-      },
     });
 
     return NextResponse.json(category);
   } catch (error) {
-    console.log('[CATEGORY_PATCH]', error);
-    return new NextResponse('Ошибка сервера', { status: 500 });
+    console.error('[CATEGORY_PATCH]', error);
+    if (error instanceof Error) {
+      if (error.message === 'Не авторизованный доступ') {
+        return errorResponses.forbidden();
+      }
+      if (error.message === 'Билборд не найден') {
+        return errorResponses.notFound(error.message);
+      }
+    }
+    return errorResponses.serverError(error);
   }
 }
