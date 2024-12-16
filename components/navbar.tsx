@@ -23,16 +23,20 @@ const Navbar = async () => {
     },
     select: {
       id: true,
-      name: true
+      name: true,
     },
     orderBy: {
-      createdAt: 'desc'
+      createdAt: 'desc',
     },
   });
 
   return (
-    <nav className="border-b" role="navigation" aria-label="Main navigation">
-      <div className="flex h-16 items-center px-4 mx-auto">
+    <nav
+      className="border-b"
+      role="navigation"
+      aria-label="Main navigation"
+    >
+      <div className="mx-auto flex h-16 items-center px-4">
         <Suspense fallback={<div className="h-10 w-[200px] animate-pulse bg-gray-200" />}>
           <StoreSwitcher items={stores} />
         </Suspense>

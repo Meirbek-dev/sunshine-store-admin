@@ -87,7 +87,10 @@ export const SizeForm: React.FC<SizeFormProperties> = ({ initialData }) => {
       toast.success('Размер удален.');
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.error?.message ?? 'Убедитесь, что вы удалили все товары этого размера.');
+        toast.error(
+          error.response?.data?.error?.message ??
+            'Убедитесь, что вы удалили все товары этого размера.',
+        );
       } else {
         toast.error('Убедитесь, что вы удалили все товары этого размера.');
       }
@@ -106,7 +109,10 @@ export const SizeForm: React.FC<SizeFormProperties> = ({ initialData }) => {
         loading={loading}
       />
       <div className="flex items-center justify-between">
-        <Heading title={title} description={description} />
+        <Heading
+          title={title}
+          description={description}
+        />
         {initialData && (
           <Button
             disabled={loading}

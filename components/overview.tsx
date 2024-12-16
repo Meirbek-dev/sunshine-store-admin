@@ -24,7 +24,10 @@ export const Overview = memo(({ data }: OverviewProperties) => (
       data={data}
       margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
     >
-      <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
+      <CartesianGrid
+        strokeDasharray="3 3"
+        opacity={0.1}
+      />
       <XAxis
         dataKey="name"
         stroke="#888888"

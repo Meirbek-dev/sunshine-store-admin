@@ -14,48 +14,51 @@ export function MainNav({ className, ...properties }: MainNavProps) {
   const pathname = usePathname();
   const parameters = useParams();
 
-  const routes = useMemo(() => [
-    {
-      href: `/${parameters.storeId}`,
-      label: 'Обзор',
-      active: pathname === `/${parameters.storeId}`,
-    },
-    {
-      href: `/${parameters.storeId}/billboards`,
-      label: 'Билборды',
-      active: pathname === `/${parameters.storeId}/billboards`,
-    },
-    {
-      href: `/${parameters.storeId}/categories`,
-      label: 'Категории',
-      active: pathname === `/${parameters.storeId}/categories`,
-    },
-    {
-      href: `/${parameters.storeId}/sizes`,
-      label: 'Размеры',
-      active: pathname === `/${parameters.storeId}/sizes`,
-    },
-    {
-      href: `/${parameters.storeId}/colors`,
-      label: 'Цвета',
-      active: pathname === `/${parameters.storeId}/colors`,
-    },
-    {
-      href: `/${parameters.storeId}/products`,
-      label: 'Товары',
-      active: pathname === `/${parameters.storeId}/products`,
-    },
-    {
-      href: `/${parameters.storeId}/orders`,
-      label: 'Заказы',
-      active: pathname === `/${parameters.storeId}/orders`,
-    },
-    {
-      href: `/${parameters.storeId}/settings`,
-      label: 'Настройки',
-      active: pathname === `/${parameters.storeId}/settings`,
-    },
-  ], [parameters.storeId, pathname]);
+  const routes = useMemo(
+    () => [
+      {
+        href: `/${parameters.storeId}`,
+        label: 'Обзор',
+        active: pathname === `/${parameters.storeId}`,
+      },
+      {
+        href: `/${parameters.storeId}/billboards`,
+        label: 'Билборды',
+        active: pathname === `/${parameters.storeId}/billboards`,
+      },
+      {
+        href: `/${parameters.storeId}/categories`,
+        label: 'Категории',
+        active: pathname === `/${parameters.storeId}/categories`,
+      },
+      {
+        href: `/${parameters.storeId}/sizes`,
+        label: 'Размеры',
+        active: pathname === `/${parameters.storeId}/sizes`,
+      },
+      {
+        href: `/${parameters.storeId}/colors`,
+        label: 'Цвета',
+        active: pathname === `/${parameters.storeId}/colors`,
+      },
+      {
+        href: `/${parameters.storeId}/products`,
+        label: 'Товары',
+        active: pathname === `/${parameters.storeId}/products`,
+      },
+      {
+        href: `/${parameters.storeId}/orders`,
+        label: 'Заказы',
+        active: pathname === `/${parameters.storeId}/orders`,
+      },
+      {
+        href: `/${parameters.storeId}/settings`,
+        label: 'Настройки',
+        active: pathname === `/${parameters.storeId}/settings`,
+      },
+    ],
+    [parameters.storeId, pathname],
+  );
 
   return (
     <nav
@@ -69,7 +72,7 @@ export function MainNav({ className, ...properties }: MainNavProps) {
           href={route.href}
           className={cn(
             'text-sm font-medium transition-colors hover:text-primary',
-            route.active ? 'text-black dark:text-white' : 'text-muted-foreground'
+            route.active ? 'text-black dark:text-white' : 'text-muted-foreground',
           )}
           aria-current={route.active ? 'page' : undefined}
         >

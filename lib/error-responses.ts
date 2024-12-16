@@ -32,7 +32,9 @@ export const errorResponses = {
   // Серверные ошибки (5xx)
   serverError: (error: unknown, message = 'Внутренняя ошибка сервера') => {
     console.error('[SERVER_ERROR]', error);
-    return createErrorResponse(500, message, { details: process.env.NODE_ENV === 'development' ? error : undefined });
+    return createErrorResponse(500, message, {
+      details: process.env.NODE_ENV === 'development' ? error : undefined,
+    });
   },
 
   serviceUnavailable: (message = 'Сервис временно недоступен', options?: ErrorResponseOptions) =>

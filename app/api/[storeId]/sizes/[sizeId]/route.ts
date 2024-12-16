@@ -8,7 +8,7 @@ import { errorResponses } from '@/lib/error-responses';
 // Схема валидации для обновления размера
 const updateSizeSchema = z.object({
   name: z.string().min(1, 'Укажите название.'),
-  value: z.string().min(1, 'Укажите значение.')
+  value: z.string().min(1, 'Укажите значение.'),
 });
 
 // Получение размера по ID
@@ -22,7 +22,7 @@ export async function GET(request: Request, props: { params: Promise<{ sizeId: s
 
     const size = await prismadb.size.findUnique({
       where: { id: params.sizeId },
-      select: { id: true, name: true, value: true, createdAt: true, updatedAt: true }
+      select: { id: true, name: true, value: true, createdAt: true, updatedAt: true },
     });
 
     if (!size) {
@@ -39,7 +39,7 @@ export async function GET(request: Request, props: { params: Promise<{ sizeId: s
 // Удаление размера
 export async function DELETE(
   request: Request,
-  props: { params: Promise<{ sizeId: string; storeId: string }> }
+  props: { params: Promise<{ sizeId: string; storeId: string }> },
 ) {
   try {
     const params = await props.params;
@@ -58,9 +58,9 @@ export async function DELETE(
       const storeByUserId = await tx.store.findFirst({
         where: {
           id: params.storeId,
-          userId
+          userId,
         },
-        select: { id: true }
+        select: { id: true },
       });
 
       if (!storeByUserId) {
@@ -68,7 +68,7 @@ export async function DELETE(
       }
 
       return tx.size.delete({
-        where: { id: params.sizeId }
+        where: { id: params.sizeId },
       });
     });
 
@@ -85,7 +85,7 @@ export async function DELETE(
 // Обновление размера
 export async function PATCH(
   request: Request,
-  props: { params: Promise<{ sizeId: string; storeId: string }> }
+  props: { params: Promise<{ sizeId: string; storeId: string }> },
 ) {
   try {
     const params = await props.params;
@@ -112,9 +112,9 @@ export async function PATCH(
       const storeByUserId = await tx.store.findFirst({
         where: {
           id: params.storeId,
-          userId
+          userId,
         },
-        select: { id: true }
+        select: { id: true },
       });
 
       if (!storeByUserId) {
@@ -125,14 +125,14 @@ export async function PATCH(
         where: { id: params.sizeId },
         data: {
           name: validationResult.data.name,
-          value: validationResult.data.value
+          value: validationResult.data.value,
         },
         select: {
           id: true,
           name: true,
           value: true,
-          updatedAt: true
-        }
+          updatedAt: true,
+        },
       });
     });
 
