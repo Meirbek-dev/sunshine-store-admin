@@ -4,7 +4,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 
 interface ModalProperties {
   title: string;
@@ -28,7 +28,10 @@ export const Modal: React.FC<ModalProperties> = ({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onChange}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={onChange}
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>

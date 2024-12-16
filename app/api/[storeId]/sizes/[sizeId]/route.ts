@@ -1,13 +1,13 @@
-import { auth } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { auth } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
-import prismadb from "@/lib/prismadb";
+import prismadb from '@/lib/prismadb';
 
 export async function GET(request: Request, props: { params: Promise<{ sizeId: string }> }) {
   const params = await props.params;
   try {
     if (!params.sizeId) {
-      return new NextResponse("Необходим идентификатор размера.", {
+      return new NextResponse('Необходим идентификатор размера.', {
         status: 400,
       });
     }
@@ -20,8 +20,8 @@ export async function GET(request: Request, props: { params: Promise<{ sizeId: s
 
     return NextResponse.json(size);
   } catch (error) {
-    console.log("[SIZE_GET]", error);
-    return new NextResponse("Ошибка сервера", { status: 500 });
+    console.log('[SIZE_GET]', error);
+    return new NextResponse('Ошибка сервера', { status: 500 });
   }
 }
 
@@ -34,13 +34,13 @@ export async function DELETE(
     const { userId }: { userId: string | null } = await auth();
 
     if (!userId) {
-      return new NextResponse("Пользователь не аутентифицирован", {
+      return new NextResponse('Пользователь не аутентифицирован', {
         status: 403,
       });
     }
 
     if (!params.sizeId) {
-      return new NextResponse("Необходим идентификатор размера.", {
+      return new NextResponse('Необходим идентификатор размера.', {
         status: 400,
       });
     }
@@ -53,7 +53,7 @@ export async function DELETE(
     });
 
     if (!storeByUserId) {
-      return new NextResponse("Не авторизованный доступ", { status: 405 });
+      return new NextResponse('Не авторизованный доступ', { status: 405 });
     }
 
     const size = await prismadb.size.delete({
@@ -64,8 +64,8 @@ export async function DELETE(
 
     return NextResponse.json(size);
   } catch (error) {
-    console.log("[SIZE_DELETE]", error);
-    return new NextResponse("Ошибка сервера", { status: 500 });
+    console.log('[SIZE_DELETE]', error);
+    return new NextResponse('Ошибка сервера', { status: 500 });
   }
 }
 
@@ -82,21 +82,21 @@ export async function PATCH(
     const { name, value } = body;
 
     if (!userId) {
-      return new NextResponse("Пользователь не аутентифицирован", {
+      return new NextResponse('Пользователь не аутентифицирован', {
         status: 403,
       });
     }
 
     if (!name) {
-      return new NextResponse("Укажите название.", { status: 400 });
+      return new NextResponse('Укажите название.', { status: 400 });
     }
 
     if (!value) {
-      return new NextResponse("Укажите значение.", { status: 400 });
+      return new NextResponse('Укажите значение.', { status: 400 });
     }
 
     if (!params.sizeId) {
-      return new NextResponse("Необходим идентификатор размера.", {
+      return new NextResponse('Необходим идентификатор размера.', {
         status: 400,
       });
     }
@@ -109,7 +109,7 @@ export async function PATCH(
     });
 
     if (!storeByUserId) {
-      return new NextResponse("Не авторизованный доступ", { status: 405 });
+      return new NextResponse('Не авторизованный доступ', { status: 405 });
     }
 
     const size = await prismadb.size.update({
@@ -124,7 +124,7 @@ export async function PATCH(
 
     return NextResponse.json(size);
   } catch (error) {
-    console.log("[SIZE_PATCH]", error);
-    return new NextResponse("Ошибка сервера", { status: 500 });
+    console.log('[SIZE_PATCH]', error);
+    return new NextResponse('Ошибка сервера', { status: 500 });
   }
 }

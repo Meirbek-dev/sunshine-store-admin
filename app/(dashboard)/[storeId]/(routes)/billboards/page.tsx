@@ -1,9 +1,9 @@
-import { format } from "date-fns";
+import { format } from 'date-fns';
 
-import prismadb from "@/lib/prismadb";
+import prismadb from '@/lib/prismadb';
 
-import { BillboardClient } from "./components/client";
-import type { BillboardColumn } from "./components/columns";
+import { BillboardClient } from './components/client';
+import type { BillboardColumn } from './components/columns';
 
 const BillboardsPage = async (props: { params: Promise<{ storeId: string }> }) => {
   const params = await props.params;
@@ -12,14 +12,14 @@ const BillboardsPage = async (props: { params: Promise<{ storeId: string }> }) =
       storeId: params.storeId,
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: 'desc',
     },
   });
 
   const formattedBillboards: BillboardColumn[] = billboards.map((item: any) => ({
     id: item.id,
     label: item.label,
-    createdAt: format(item.createdAt, "dd.MM.yyyy"),
+    createdAt: format(item.createdAt, 'dd.MM.yyyy'),
   }));
 
   return (

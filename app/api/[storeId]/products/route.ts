@@ -1,7 +1,7 @@
-import { auth } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { auth } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
-import prismadb from "@/lib/prismadb";
+import prismadb from '@/lib/prismadb';
 
 export async function POST(request: Request, props: { params: Promise<{ storeId: string }> }) {
   const params = await props.params;
@@ -13,45 +13,45 @@ export async function POST(request: Request, props: { params: Promise<{ storeId:
     const { name, price, categoryId, colorId, sizeId, images, isFeatured, isArchived } = body;
 
     if (!userId) {
-      return new NextResponse("Пользователь не аутентифицирован", {
+      return new NextResponse('Пользователь не аутентифицирован', {
         status: 403,
       });
     }
 
     if (!name) {
-      return new NextResponse("Укажите название.", { status: 400 });
+      return new NextResponse('Укажите название.', { status: 400 });
     }
 
     if (!images || images.length === 0) {
-      return new NextResponse("Необходимо загрузить изображение", {
+      return new NextResponse('Необходимо загрузить изображение', {
         status: 400,
       });
     }
 
     if (!price) {
-      return new NextResponse("Укажите цену", { status: 400 });
+      return new NextResponse('Укажите цену', { status: 400 });
     }
 
     if (!categoryId) {
-      return new NextResponse("Необходим идентификатор категории.", {
+      return new NextResponse('Необходим идентификатор категории.', {
         status: 400,
       });
     }
 
     if (!colorId) {
-      return new NextResponse("Необходим идентификатор цвета.", {
+      return new NextResponse('Необходим идентификатор цвета.', {
         status: 400,
       });
     }
 
     if (!sizeId) {
-      return new NextResponse("Необходим идентификатор размера.", {
+      return new NextResponse('Необходим идентификатор размера.', {
         status: 400,
       });
     }
 
     if (!params.storeId) {
-      return new NextResponse("Необходим идентификатор магазина.", {
+      return new NextResponse('Необходим идентификатор магазина.', {
         status: 400,
       });
     }
@@ -64,7 +64,7 @@ export async function POST(request: Request, props: { params: Promise<{ storeId:
     });
 
     if (!storeByUserId) {
-      return new NextResponse("Не авторизованный доступ", { status: 405 });
+      return new NextResponse('Не авторизованный доступ', { status: 405 });
     }
 
     const product = await prismadb.product.create({
@@ -87,8 +87,8 @@ export async function POST(request: Request, props: { params: Promise<{ storeId:
 
     return NextResponse.json(product);
   } catch (error) {
-    console.log("[PRODUCTS_POST]", error);
-    return new NextResponse("Ошибка сервера", { status: 500 });
+    console.log('[PRODUCTS_POST]', error);
+    return new NextResponse('Ошибка сервера', { status: 500 });
   }
 }
 
@@ -96,13 +96,13 @@ export async function GET(request: Request, props: { params: Promise<{ storeId: 
   const params = await props.params;
   try {
     const { searchParams } = new URL(request.url);
-    const categoryId = searchParams.get("categoryId") || undefined;
-    const colorId = searchParams.get("colorId") || undefined;
-    const sizeId = searchParams.get("sizeId") || undefined;
-    const isFeatured = searchParams.get("isFeatured");
+    const categoryId = searchParams.get('categoryId') || undefined;
+    const colorId = searchParams.get('colorId') || undefined;
+    const sizeId = searchParams.get('sizeId') || undefined;
+    const isFeatured = searchParams.get('isFeatured');
 
     if (!params.storeId) {
-      return new NextResponse("Необходим идентификатор магазина.", {
+      return new NextResponse('Необходим идентификатор магазина.', {
         status: 400,
       });
     }
@@ -123,13 +123,13 @@ export async function GET(request: Request, props: { params: Promise<{ storeId: 
         size: true,
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: 'desc',
       },
     });
 
     return NextResponse.json(products);
   } catch (error) {
-    console.log("[PRODUCTS_GET]", error);
-    return new NextResponse("Ошибка сервера", { status: 500 });
+    console.log('[PRODUCTS_GET]', error);
+    return new NextResponse('Ошибка сервера', { status: 500 });
   }
 }

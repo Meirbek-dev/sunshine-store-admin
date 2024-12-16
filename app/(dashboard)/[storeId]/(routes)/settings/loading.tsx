@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Loader } from "@/components/ui/loader";
+import { Loader } from '@/components/ui/loader';
 
 const Loading = () => (
   <div className="flex size-full items-center justify-center">

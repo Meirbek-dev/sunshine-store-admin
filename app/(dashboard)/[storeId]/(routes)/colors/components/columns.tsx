@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import type { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from '@tanstack/react-table';
 
-import { CellAction } from "./cell-action";
+import { CellAction } from './cell-action';
 
 export interface ColorColumn {
   id: string;
@@ -13,12 +13,12 @@ export interface ColorColumn {
 
 export const columns: ColumnDef<ColorColumn>[] = [
   {
-    accessorKey: "name",
-    header: "Название",
+    accessorKey: 'name',
+    header: 'Название',
   },
   {
-    accessorKey: "value",
-    header: "Значение",
+    accessorKey: 'value',
+    header: 'Значение',
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
         {row.original.value}
@@ -30,11 +30,11 @@ export const columns: ColumnDef<ColorColumn>[] = [
     ),
   },
   {
-    accessorKey: "createdAt",
-    header: "Дата",
+    accessorKey: 'createdAt',
+    header: 'Дата',
   },
   {
-    id: "actions",
+    id: 'actions',
     cell: ({ row }) => <CellAction data={row.original} />,
   },
 ];

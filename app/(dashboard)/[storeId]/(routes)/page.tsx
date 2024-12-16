@@ -1,14 +1,14 @@
-import { CreditCard, Package } from "lucide-react";
+import { CreditCard, Package } from 'lucide-react';
 
-import { getGraphRevenue } from "@/actions/get-graph-revenue";
-import { getSalesCount } from "@/actions/get-sales-count";
-import { getStockCount } from "@/actions/get-stock-count";
-import { getTotalRevenue } from "@/actions/get-total-revenue";
-import { Overview } from "@/components/overview";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Heading } from "@/components/ui/heading";
-import { Separator } from "@/components/ui/separator";
-import { formatter } from "@/lib/utils";
+import { getGraphRevenue } from '@/actions/get-graph-revenue';
+import { getSalesCount } from '@/actions/get-sales-count';
+import { getStockCount } from '@/actions/get-stock-count';
+import { getTotalRevenue } from '@/actions/get-total-revenue';
+import { Overview } from '@/components/overview';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Heading } from '@/components/ui/heading';
+import { Separator } from '@/components/ui/separator';
+import { formatter } from '@/lib/utils';
 
 interface DashboardPageProperties {
   params: {
@@ -26,7 +26,10 @@ const DashboardPage: React.FC<DashboardPageProperties> = async (props) => {
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <Heading title="Панель управления" description="Обзор вашего магазина" />
+        <Heading
+          title="Панель управления"
+          description="Обзор вашего магазина"
+        />
         <Separator />
         <div className="grid grid-cols-3 gap-4">
           <Card>

@@ -1,44 +1,62 @@
 {
   "compilerOptions": {
-    /* Base Options: */
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "target": "esnext",
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "moduleDetection": "force",
-    "isolatedModules": true,
-    "noImplicitAny": false,
+    /* Base Options */
+    "esModuleInterop": true, // Smooth interop between ESModules and CommonJS
+    "skipLibCheck": true, // Speeds up compilation by skipping type checks in libraries
+    "target": "ESNext", // Enables modern JavaScript features
+    "module": "ESNext", // Use the ESNext module system
+    "moduleResolution": "Node", // Resolves modules in Node.js style
+    "allowJs": true, // Allows JavaScript files to be included in the project
+    "checkJs": true, // Type-check JavaScript files
+    "resolveJsonModule": true, // Enables importing JSON modules
+    "jsx": "preserve", // Keeps JSX for the framework to process
+    "isolatedModules": true, // Ensures each file can be transpiled independently
+    "moduleDetection": "force", // Enforces explicit module usage
 
-    /* Strictness */
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "checkJs": true,
-    "forceConsistentCasingInFileNames": true,
+    /* Performance and Build Optimization */
+    "incremental": true, // Enables faster builds by using incremental compilation
+    "noEmit": true, // Disables emitting files during compilation
+    "skipDefaultLibCheck": true, // Speeds up compilation by skipping default lib checks
 
-    /* Bundled projects */
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "noEmit": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "jsx": "preserve",
-    "plugins": [{ "name": "next" }],
-    "incremental": true,
+    /* Type Checking and Strictness */
+    "strict": true, // Enable all strict type-checking options
+    "noImplicitAny": true, // Disallow `any` types
+    "strictNullChecks": true, // Ensure null and undefined are distinct types
+    "noUncheckedIndexedAccess": true, // Improves safety with indexed access
+    "noFallthroughCasesInSwitch": true, // Prevent fallthrough in switch cases
+    "forceConsistentCasingInFileNames": true, // Enforces consistent file casing
+    "useUnknownInCatchVariables": true, // Use `unknown` for catch variable type
 
-    /* Path Aliases */
-    "baseUrl": ".",
+    /* Libraries and Types */
+    "lib": ["dom", "dom.iterable", "esnext"], // Includes modern JavaScript and DOM libraries
+
+    /* Aliases and Module Pathing */
+    "baseUrl": ".", // Sets the base directory for module resolution
     "paths": {
-      "@/*": ["./*"]
-    }
+      "@/*": ["./*"], // Path alias for root-relative imports
+      "components/*": ["./components/*"], // Example alias for better organization
+      "utils/*": ["./utils/*"]
+    },
+
+    /* Advanced */
+    "plugins": [{ "name": "next" }], // Next.js TypeScript plugin
+    "verbatimModuleSyntax": true, // Keeps the original module syntax for ESM/CJS
+    "allowSyntheticDefaultImports": true // Simplifies importing ESM modules
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "**/*.cjs",
-    "**/*.js",
-    "tailwind.config.ts"
+    "next-env.d.ts", // Next.js environment types
+    "**/*.ts", // Include all TypeScript files
+    "**/*.tsx", // Include all TypeScript React files
+    ".next/types/**/*.ts", // Next.js auto-generated types
+    "**/*.cjs", // CommonJS modules
+    "**/*.mjs", // ESModules
+    "tailwind.config.ts" // Tailwind configuration file
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules", // Exclude external dependencies
+    "**/*.test.ts", // Optional: exclude test files
+    "**/*.test.tsx", // Optional: exclude test files
+    "dist", // Exclude build output
+    ".next" // Exclude Next.js build artifacts
+  ]
 }

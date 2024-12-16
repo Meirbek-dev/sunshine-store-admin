@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "react-hot-toast";
+import axios from 'axios';
+import { Copy, Edit, MoreHorizontal, Trash } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
 
-import { AlertModal } from "@/components/modals/alert-modal";
-import { Button } from "@/components/ui/button";
+import { AlertModal } from '@/components/modals/alert-modal';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 
-import type { ColorColumn } from "./columns";
+import type { ColorColumn } from './columns';
 
 interface CellActionProperties {
   data: ColorColumn;
@@ -32,10 +32,10 @@ export const CellAction: React.FC<CellActionProperties> = ({ data }) => {
     try {
       setLoading(true);
       await axios.delete(`/api/${parameters.storeId}/colors/${data.id}`);
-      toast.success("Цвет удален.");
+      toast.success('Цвет удален.');
       router.refresh();
     } catch {
-      toast.error("Убедитесь, что вы удалили все товары, использующие этот цвет.");
+      toast.error('Убедитесь, что вы удалили все товары, использующие этот цвет.');
     } finally {
       setOpen(false);
       setLoading(false);
@@ -44,7 +44,7 @@ export const CellAction: React.FC<CellActionProperties> = ({ data }) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success("Идентификатор цвета скопирован в буфер обмена.");
+    toast.success('Идентификатор цвета скопирован в буфер обмена.');
   };
 
   return (
@@ -57,7 +57,10 @@ export const CellAction: React.FC<CellActionProperties> = ({ data }) => {
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="size-8 p-0">
+          <Button
+            variant="ghost"
+            className="size-8 p-0"
+          >
             <span className="sr-only">Открыть меню</span>
             <MoreHorizontal className="size-4" />
           </Button>

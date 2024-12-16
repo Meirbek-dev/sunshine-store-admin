@@ -1,13 +1,13 @@
-import { auth } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { auth } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
-import prismadb from "@/lib/prismadb";
+import prismadb from '@/lib/prismadb';
 
 export async function GET(request: Request, props: { params: Promise<{ productId: string }> }) {
   const params = await props.params;
   try {
     if (!params.productId) {
-      return new NextResponse("Необходим идентификатор товара.", {
+      return new NextResponse('Необходим идентификатор товара.', {
         status: 400,
       });
     }
@@ -26,8 +26,8 @@ export async function GET(request: Request, props: { params: Promise<{ productId
 
     return NextResponse.json(product);
   } catch (error) {
-    console.log("[PRODUCT_GET]", error);
-    return new NextResponse("Ошибка сервера", { status: 500 });
+    console.log('[PRODUCT_GET]', error);
+    return new NextResponse('Ошибка сервера', { status: 500 });
   }
 }
 
@@ -40,13 +40,13 @@ export async function DELETE(
     const { userId }: { userId: string | null } = await auth();
 
     if (!userId) {
-      return new NextResponse("Пользователь не аутентифицирован", {
+      return new NextResponse('Пользователь не аутентифицирован', {
         status: 403,
       });
     }
 
     if (!params.productId) {
-      return new NextResponse("Необходим идентификатор товара.", {
+      return new NextResponse('Необходим идентификатор товара.', {
         status: 400,
       });
     }
@@ -59,7 +59,7 @@ export async function DELETE(
     });
 
     if (!storeByUserId) {
-      return new NextResponse("Не авторизованный доступ", { status: 405 });
+      return new NextResponse('Не авторизованный доступ', { status: 405 });
     }
 
     const product = await prismadb.product.delete({
@@ -70,8 +70,8 @@ export async function DELETE(
 
     return NextResponse.json(product);
   } catch (error) {
-    console.log("[PRODUCT_DELETE]", error);
-    return new NextResponse("Ошибка сервера", { status: 500 });
+    console.log('[PRODUCT_DELETE]', error);
+    return new NextResponse('Ошибка сервера', { status: 500 });
   }
 }
 
@@ -88,45 +88,45 @@ export async function PATCH(
     const { name, price, categoryId, images, colorId, sizeId, isFeatured, isArchived } = body;
 
     if (!userId) {
-      return new NextResponse("Пользователь не аутентифицирован", {
+      return new NextResponse('Пользователь не аутентифицирован', {
         status: 403,
       });
     }
 
     if (!params.productId) {
-      return new NextResponse("Необходим идентификатор товара.", {
+      return new NextResponse('Необходим идентификатор товара.', {
         status: 400,
       });
     }
 
     if (!name) {
-      return new NextResponse("Укажите название.", { status: 400 });
+      return new NextResponse('Укажите название.', { status: 400 });
     }
 
     if (!images || images.length === 0) {
-      return new NextResponse("Необходимо загрузить изображение", {
+      return new NextResponse('Необходимо загрузить изображение', {
         status: 400,
       });
     }
 
     if (!price) {
-      return new NextResponse("Укажите цену", { status: 400 });
+      return new NextResponse('Укажите цену', { status: 400 });
     }
 
     if (!categoryId) {
-      return new NextResponse("Необходим идентификатор категории.", {
+      return new NextResponse('Необходим идентификатор категории.', {
         status: 400,
       });
     }
 
     if (!colorId) {
-      return new NextResponse("Необходим идентификатор цвета.", {
+      return new NextResponse('Необходим идентификатор цвета.', {
         status: 400,
       });
     }
 
     if (!sizeId) {
-      return new NextResponse("Необходим идентификатор размера.", {
+      return new NextResponse('Необходим идентификатор размера.', {
         status: 400,
       });
     }
@@ -139,7 +139,7 @@ export async function PATCH(
     });
 
     if (!storeByUserId) {
-      return new NextResponse("Не авторизованный доступ", { status: 405 });
+      return new NextResponse('Не авторизованный доступ', { status: 405 });
     }
 
     await prismadb.product.update({
@@ -175,7 +175,7 @@ export async function PATCH(
 
     return NextResponse.json(product);
   } catch (error) {
-    console.log("[PRODUCT_PATCH]", error);
-    return new NextResponse("Ошибка сервера", { status: 500 });
+    console.log('[PRODUCT_PATCH]', error);
+    return new NextResponse('Ошибка сервера', { status: 500 });
   }
 }

@@ -1,8 +1,8 @@
-import Stripe from "stripe";
+import Stripe from 'stripe';
 
-const stripeApiKey = process.env.STRIPE_API_KEY || "";
+const stripeApiKey = process.env.STRIPE_API_KEY || '';
 
 export const stripe = new Stripe(stripeApiKey, {
-  apiVersion: "2024-09-30.acacia",
+  apiVersion: '2024-11-20.acacia',
   typescript: true,
 });

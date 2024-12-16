@@ -1,6 +1,6 @@
-import prismadb from "@/lib/prismadb";
+import prismadb from '@/lib/prismadb';
 
-import { ProductForm } from "./components/product-form";
+import { ProductForm } from './components/product-form';
 
 const ProductPage = async (props: { params: Promise<{ productId: string; storeId: string }> }) => {
   const params = await props.params;
@@ -34,7 +34,12 @@ const ProductPage = async (props: { params: Promise<{ productId: string; storeId
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <ProductForm categories={categories} colors={colors} sizes={sizes} initialData={product} />
+        <ProductForm
+          categories={categories}
+          colors={colors}
+          sizes={sizes}
+          initialData={product}
+        />
       </div>
     </div>
   );

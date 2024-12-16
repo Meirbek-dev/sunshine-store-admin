@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import type { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from '@tanstack/react-table';
 
-import { CellAction } from "./cell-action";
+import { CellAction } from './cell-action';
 
 export interface SizeColumn {
   id: string;
@@ -13,19 +13,19 @@ export interface SizeColumn {
 
 export const columns: ColumnDef<SizeColumn>[] = [
   {
-    accessorKey: "name",
-    header: "Название",
+    accessorKey: 'name',
+    header: 'Название',
   },
   {
-    accessorKey: "value",
-    header: "Значение",
+    accessorKey: 'value',
+    header: 'Значение',
   },
   {
-    accessorKey: "createdAt",
-    header: "Дата",
+    accessorKey: 'createdAt',
+    header: 'Дата',
   },
   {
-    id: "actions",
+    id: 'actions',
     cell: ({ row }) => <CellAction data={row.original} />,
   },
 ];

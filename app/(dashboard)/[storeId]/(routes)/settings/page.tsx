@@ -1,16 +1,16 @@
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
-import prismadb from "@/lib/prismadb";
+import prismadb from '@/lib/prismadb';
 
-import { SettingsForm } from "./components/settings-form";
+import { SettingsForm } from './components/settings-form';
 
 const SettingsPage = async (props: { params: Promise<{ storeId: string }> }) => {
   const params = await props.params;
   const { userId }: { userId: string | null } = await auth();
 
   if (!userId) {
-    redirect("/sign-in");
+    redirect('/sign-in');
   }
 
   const store = await prismadb.store.findFirst({
@@ -21,7 +21,7 @@ const SettingsPage = async (props: { params: Promise<{ storeId: string }> }) => 
   });
 
   if (!store) {
-    redirect("/");
+    redirect('/');
   }
 
   return (

@@ -1,6 +1,6 @@
-import prismadb from "@/lib/prismadb";
+import prismadb from '@/lib/prismadb';
 
-import { ColorForm } from "./components/color-form";
+import { ColorForm } from './components/color-form';
 
 const ColorPage = async (props: { params: Promise<{ colorId: string }> }) => {
   const params = await props.params;

@@ -1,9 +1,9 @@
-import { format } from "date-fns";
+import { format } from 'date-fns';
 
-import prismadb from "@/lib/prismadb";
+import prismadb from '@/lib/prismadb';
 
-import { CategoriesClient } from "./components/client";
-import type { CategoryColumn } from "./components/columns";
+import { CategoriesClient } from './components/client';
+import type { CategoryColumn } from './components/columns';
 
 const CategoriesPage = async (props: { params: Promise<{ storeId: string }> }) => {
   const params = await props.params;
@@ -15,7 +15,7 @@ const CategoriesPage = async (props: { params: Promise<{ storeId: string }> }) =
       billboard: true,
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: 'desc',
     },
   });
 
@@ -23,7 +23,7 @@ const CategoriesPage = async (props: { params: Promise<{ storeId: string }> }) =
     id: item.id,
     name: item.name,
     billboardLabel: item.billboard.label,
-    createdAt: format(item.createdAt, "dd.MM.yyyy"),
+    createdAt: format(item.createdAt, 'dd.MM.yyyy'),
   }));
 
   return (

@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { Category, Color, Image, Product, Size } from "@prisma/client";
-import axios from "axios";
-import { Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import * as z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import type { Category, Color, Image, Product, Size } from '@prisma/client';
+import axios from 'axios';
+import { Trash } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import * as z from 'zod';
 
-import { AlertModal } from "@/components/modals/alert-modal";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { AlertModal } from '@/components/modals/alert-modal';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
@@ -21,18 +21,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Heading } from "@/components/ui/heading";
-import ImageUpload from "@/components/ui/image-upload";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Heading } from '@/components/ui/heading';
+import ImageUpload from '@/components/ui/image-upload';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -69,10 +69,10 @@ export const ProductForm: React.FC<ProductFormProperties> = ({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Редактировать товар" : "Создать товар";
-  const description = initialData ? "Редактировать товар." : "Добавить товар";
-  const toastMessage = initialData ? "Товар обновлен." : "Товар создан.";
-  const action = initialData ? "Сохранить изменения" : "Создать";
+  const title = initialData ? 'Редактировать товар' : 'Создать товар';
+  const description = initialData ? 'Редактировать товар.' : 'Добавить товар';
+  const toastMessage = initialData ? 'Товар обновлен.' : 'Товар создан.';
+  const action = initialData ? 'Сохранить изменения' : 'Создать';
 
   const defaultValues = initialData
     ? {
@@ -80,12 +80,12 @@ export const ProductForm: React.FC<ProductFormProperties> = ({
         price: Number.parseFloat(String(initialData.price)),
       }
     : {
-        name: "",
+        name: '',
         images: [],
         price: 0,
-        categoryId: "",
-        colorId: "",
-        sizeId: "",
+        categoryId: '',
+        colorId: '',
+        sizeId: '',
         isFeatured: false,
         isArchived: false,
       };
@@ -105,7 +105,7 @@ export const ProductForm: React.FC<ProductFormProperties> = ({
       router.refresh();
       toast.success(toastMessage);
     } catch {
-      toast.error("Что-то пошло не так.");
+      toast.error('Что-то пошло не так.');
     } finally {
       setLoading(false);
     }
@@ -117,9 +117,9 @@ export const ProductForm: React.FC<ProductFormProperties> = ({
       await axios.delete(`/api/${parameters.storeId}/products/${parameters.productId}`);
       router.push(`/${parameters.storeId}/products`);
       router.refresh();
-      toast.success("Товар удален.");
+      toast.success('Товар удален.');
     } catch {
-      toast.error("Что-то пошло не так.");
+      toast.error('Что-то пошло не так.');
     } finally {
       setLoading(false);
       setOpen(false);
@@ -135,16 +135,27 @@ export const ProductForm: React.FC<ProductFormProperties> = ({
         loading={loading}
       />
       <div className="flex items-center justify-between">
-        <Heading title={title} description={description} />
+        <Heading
+          title={title}
+          description={description}
+        />
         {initialData && (
-          <Button disabled={loading} variant="destructive" size="sm" onClick={() => setOpen(true)}>
+          <Button
+            disabled={loading}
+            variant="destructive"
+            size="sm"
+            onClick={() => setOpen(true)}
+          >
             <Trash className="size-4" />
           </Button>
         )}
       </div>
       <Separator />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full space-y-8"
+        >
           <FormField
             control={form.control}
             name="images"
@@ -173,7 +184,11 @@ export const ProductForm: React.FC<ProductFormProperties> = ({
                 <FormItem>
                   <FormLabel>Название</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="Название товара" {...field} />
+                    <Input
+                      disabled={loading}
+                      placeholder="Название товара"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -186,7 +201,12 @@ export const ProductForm: React.FC<ProductFormProperties> = ({
                 <FormItem>
                   <FormLabel>Цена</FormLabel>
                   <FormControl>
-                    <Input type="number" disabled={loading} placeholder="19900" {...field} />
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      placeholder="19900"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -206,12 +226,18 @@ export const ProductForm: React.FC<ProductFormProperties> = ({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue defaultValue={field.value} placeholder="Выберите категорию" />
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Выберите категорию"
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
+                        <SelectItem
+                          key={category.id}
+                          value={category.id}
+                        >
                           {category.name}
                         </SelectItem>
                       ))}
@@ -235,12 +261,18 @@ export const ProductForm: React.FC<ProductFormProperties> = ({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue defaultValue={field.value} placeholder="Выберите размер" />
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Выберите размер"
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {sizes.map((size) => (
-                        <SelectItem key={size.id} value={size.id}>
+                        <SelectItem
+                          key={size.id}
+                          value={size.id}
+                        >
                           {size.name}
                         </SelectItem>
                       ))}
@@ -264,12 +296,18 @@ export const ProductForm: React.FC<ProductFormProperties> = ({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue defaultValue={field.value} placeholder="Выберите цвет" />
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Выберите цвет"
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {colors.map((color) => (
-                        <SelectItem key={color.id} value={color.id}>
+                        <SelectItem
+                          key={color.id}
+                          value={color.id}
+                        >
                           {color.name}
                         </SelectItem>
                       ))}
@@ -285,7 +323,10 @@ export const ProductForm: React.FC<ProductFormProperties> = ({
               render={({ field }) => (
                 <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                   <FormControl>
-                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel>Рекомендован</FormLabel>
@@ -302,7 +343,10 @@ export const ProductForm: React.FC<ProductFormProperties> = ({
               render={({ field }) => (
                 <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                   <FormControl>
-                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel>Архивирован</FormLabel>
@@ -312,7 +356,11 @@ export const ProductForm: React.FC<ProductFormProperties> = ({
               )}
             />
           </div>
-          <Button disabled={loading} className="ml-auto" type="submit">
+          <Button
+            disabled={loading}
+            className="ml-auto"
+            type="submit"
+          >
             {action}
           </Button>
         </form>

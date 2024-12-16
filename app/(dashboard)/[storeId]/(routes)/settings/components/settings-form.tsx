@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { Store } from "@prisma/client";
-import axios from "axios";
-import { Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import * as z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import type { Store } from '@prisma/client';
+import axios from 'axios';
+import { Trash } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import * as z from 'zod';
 
-import { AlertModal } from "@/components/modals/alert-modal";
-import { ApiAlert } from "@/components/ui/api-alert";
-import { Button } from "@/components/ui/button";
+import { AlertModal } from '@/components/modals/alert-modal';
+import { ApiAlert } from '@/components/ui/api-alert';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -20,11 +20,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Heading } from "@/components/ui/heading";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { useOrigin } from "@/hooks/use-origin";
+} from '@/components/ui/form';
+import { Heading } from '@/components/ui/heading';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { useOrigin } from '@/hooks/use-origin';
 
 const formSchema = z.object({
   name: z.string().min(2),
@@ -54,9 +54,9 @@ export const SettingsForm: React.FC<SettingsFormProperties> = ({ initialData }) 
       setLoading(true);
       await axios.patch(`/api/stores/${parameters.storeId}`, data);
       router.refresh();
-      toast.success("Магазин обновлен.");
+      toast.success('Магазин обновлен.');
     } catch {
-      toast.error("Что-то пошло не так.");
+      toast.error('Что-то пошло не так.');
     } finally {
       setLoading(false);
     }
@@ -66,11 +66,11 @@ export const SettingsForm: React.FC<SettingsFormProperties> = ({ initialData }) 
     try {
       setLoading(true);
       await axios.delete(`/api/stores/${parameters.storeId}`);
-      router.push("/");
+      router.push('/');
       router.refresh();
-      toast.success("Магазин удален.");
+      toast.success('Магазин удален.');
     } catch {
-      toast.error("Убедитесь, что вы удалили все товары и категории.");
+      toast.error('Убедитесь, что вы удалили все товары и категории.');
     } finally {
       setLoading(false);
       setOpen(false);
@@ -86,14 +86,25 @@ export const SettingsForm: React.FC<SettingsFormProperties> = ({ initialData }) 
         loading={loading}
       />
       <div className="flex items-center justify-between">
-        <Heading title="Настройки магазина" description="" />
-        <Button disabled={loading} variant="destructive" size="sm" onClick={() => setOpen(true)}>
+        <Heading
+          title="Настройки магазина"
+          description=""
+        />
+        <Button
+          disabled={loading}
+          variant="destructive"
+          size="sm"
+          onClick={() => setOpen(true)}
+        >
           <Trash className="size-4" />
         </Button>
       </div>
       <Separator />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full space-y-8"
+        >
           <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
@@ -102,14 +113,22 @@ export const SettingsForm: React.FC<SettingsFormProperties> = ({ initialData }) 
                 <FormItem>
                   <FormLabel>Название</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="Название магазина" {...field} />
+                    <Input
+                      disabled={loading}
+                      placeholder="Название магазина"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          <Button disabled={loading} className="ml-auto" type="submit">
+          <Button
+            disabled={loading}
+            className="ml-auto"
+            type="submit"
+          >
             Сохранить изменения
           </Button>
         </form>

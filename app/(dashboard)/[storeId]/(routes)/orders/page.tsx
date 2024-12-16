@@ -1,10 +1,10 @@
-import { format } from "date-fns";
+import { format } from 'date-fns';
 
-import prismadb from "@/lib/prismadb";
-import { formatter } from "@/lib/utils";
+import prismadb from '@/lib/prismadb';
+import { formatter } from '@/lib/utils';
 
-import { OrderClient } from "./components/client";
-import type { OrderColumn } from "./components/columns";
+import { OrderClient } from './components/client';
+import type { OrderColumn } from './components/columns';
 
 const OrdersPage = async (props: { params: Promise<{ storeId: string }> }) => {
   const params = await props.params;
@@ -20,7 +20,7 @@ const OrdersPage = async (props: { params: Promise<{ storeId: string }> }) => {
       },
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: 'desc',
     },
   });
 
@@ -28,12 +28,12 @@ const OrdersPage = async (props: { params: Promise<{ storeId: string }> }) => {
     id: item.id,
     phone: item.phone,
     address: item.address,
-    products: item.orderItems.map((orderItem: any) => orderItem.product.name).join(", "),
+    products: item.orderItems.map((orderItem: any) => orderItem.product.name).join(', '),
     totalPrice: formatter.format(
       item.orderItems.reduce((total: any, item: any) => total + Number(item.product.price), 0),
     ),
     isPaid: item.isPaid,
-    createdAt: format(item.createdAt, "dd.MM.yyyy"),
+    createdAt: format(item.createdAt, 'dd.MM.yyyy'),
   }));
 
   return (

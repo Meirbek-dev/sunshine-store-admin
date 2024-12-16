@@ -1,17 +1,17 @@
-import { UserButton } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+import { UserButton } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
-import { MainNav } from "@/components/main-nav";
-import StoreSwitcher from "@/components/store-switcher";
-import { ModeToggle } from "@/components/theme-toggle";
-import prismadb from "@/lib/prismadb";
+import { MainNav } from '@/components/main-nav';
+import StoreSwitcher from '@/components/store-switcher';
+import { ModeToggle } from '@/components/theme-toggle';
+import prismadb from '@/lib/prismadb';
 
 const Navbar = async () => {
   const { userId }: { userId: string | null } = await auth();
 
   if (!userId) {
-    redirect("/sign-in");
+    redirect('/sign-in');
   }
 
   const stores = await prismadb.store.findMany({

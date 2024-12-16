@@ -1,9 +1,9 @@
-import { format } from "date-fns";
+import { format } from 'date-fns';
 
-import prismadb from "@/lib/prismadb";
+import prismadb from '@/lib/prismadb';
 
-import { SizesClient } from "./components/client";
-import type { SizeColumn } from "./components/columns";
+import { SizesClient } from './components/client';
+import type { SizeColumn } from './components/columns';
 
 const SizesPage = async (props: { params: Promise<{ storeId: string }> }) => {
   const params = await props.params;
@@ -12,7 +12,7 @@ const SizesPage = async (props: { params: Promise<{ storeId: string }> }) => {
       storeId: params.storeId,
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: 'desc',
     },
   });
 
@@ -20,7 +20,7 @@ const SizesPage = async (props: { params: Promise<{ storeId: string }> }) => {
     id: item.id,
     name: item.name,
     value: item.value,
-    createdAt: format(item.createdAt, "dd.MM.yyyy"),
+    createdAt: format(item.createdAt, 'dd.MM.yyyy'),
   }));
 
   return (

@@ -1,13 +1,13 @@
-import { NextResponse } from "next/server";
-import type Stripe from "stripe";
+import { NextResponse } from 'next/server';
+import type Stripe from 'stripe';
 
-import prismadb from "@/lib/prismadb";
-import { stripe } from "@/lib/stripe";
+import prismadb from '@/lib/prismadb';
+import { stripe } from '@/lib/stripe';
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
 
 export async function OPTIONS() {
@@ -19,7 +19,7 @@ export async function POST(request: Request, props: { params: Promise<{ storeId:
   const { productIds } = await request.json();
 
   if (!productIds || productIds.length === 0) {
-    return new NextResponse("Необходимы идентификаторы продуктов.", {
+    return new NextResponse('Необходимы идентификаторы продуктов.', {
       status: 400,
     });
   }
@@ -38,7 +38,7 @@ export async function POST(request: Request, props: { params: Promise<{ storeId:
     lineItems.push({
       quantity: 1,
       price_data: {
-        currency: "KZT",
+        currency: 'KZT',
         product_data: {
           name: product.name,
         },
@@ -65,8 +65,8 @@ export async function POST(request: Request, props: { params: Promise<{ storeId:
 
   const session = await stripe.checkout.sessions.create({
     line_items: lineItems,
-    mode: "payment",
-    billing_address_collection: "required",
+    mode: 'payment',
+    billing_address_collection: 'required',
     phone_number_collection: {
       enabled: true,
     },

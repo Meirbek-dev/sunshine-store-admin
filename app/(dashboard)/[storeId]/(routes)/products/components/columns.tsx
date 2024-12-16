@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import type { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from '@tanstack/react-table';
 
-import { CellAction } from "./cell-action";
+import { CellAction } from './cell-action';
 
 export interface ProductColumn {
   id: string;
@@ -18,42 +18,42 @@ export interface ProductColumn {
 
 export const columns: ColumnDef<ProductColumn>[] = [
   {
-    accessorKey: "name",
-    header: "Название",
+    accessorKey: 'name',
+    header: 'Название',
   },
   {
-    accessorKey: "isArchived",
-    header: "Архивирован",
+    accessorKey: 'isArchived',
+    header: 'Архивирован',
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
-        {row.original.isArchived ? "Да" : "Нет"}
+        {row.original.isArchived ? 'Да' : 'Нет'}
       </div>
     ),
   },
   {
-    accessorKey: "isFeatured",
-    header: "Рекомендован на главной странице",
+    accessorKey: 'isFeatured',
+    header: 'Рекомендован на главной странице',
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
-        {row.original.isArchived ? "Да" : "Нет"}
+        {row.original.isArchived ? 'Да' : 'Нет'}
       </div>
     ),
   },
   {
-    accessorKey: "price",
-    header: "Цена",
+    accessorKey: 'price',
+    header: 'Цена',
   },
   {
-    accessorKey: "category",
-    header: "Категория",
+    accessorKey: 'category',
+    header: 'Категория',
   },
   {
-    accessorKey: "size",
-    header: "Размер",
+    accessorKey: 'size',
+    header: 'Размер',
   },
   {
-    accessorKey: "color",
-    header: "Цвет",
+    accessorKey: 'color',
+    header: 'Цвет',
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
         {row.original.color}
@@ -65,11 +65,11 @@ export const columns: ColumnDef<ProductColumn>[] = [
     ),
   },
   {
-    accessorKey: "createdAt",
-    header: "Дата",
+    accessorKey: 'createdAt',
+    header: 'Дата',
   },
   {
-    id: "actions",
+    id: 'actions',
     cell: ({ row }) => <CellAction data={row.original} />,
   },
 ];

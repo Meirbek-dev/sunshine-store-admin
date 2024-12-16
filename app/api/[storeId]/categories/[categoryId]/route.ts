@@ -1,13 +1,13 @@
-import { auth } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { auth } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
-import prismadb from "@/lib/prismadb";
+import prismadb from '@/lib/prismadb';
 
 export async function GET(request: Request, props: { params: Promise<{ categoryId: string }> }) {
   const params = await props.params;
   try {
     if (!params.categoryId) {
-      return new NextResponse("Необходим идентификатор категории.", {
+      return new NextResponse('Необходим идентификатор категории.', {
         status: 400,
       });
     }
@@ -23,8 +23,8 @@ export async function GET(request: Request, props: { params: Promise<{ categoryI
 
     return NextResponse.json(category);
   } catch (error) {
-    console.log("[CATEGORY_GET]", error);
-    return new NextResponse("Ошибка сервера", { status: 500 });
+    console.log('[CATEGORY_GET]', error);
+    return new NextResponse('Ошибка сервера', { status: 500 });
   }
 }
 
@@ -37,13 +37,13 @@ export async function DELETE(
     const { userId }: { userId: string | null } = await auth();
 
     if (!userId) {
-      return new NextResponse("Пользователь не аутентифицирован", {
+      return new NextResponse('Пользователь не аутентифицирован', {
         status: 403,
       });
     }
 
     if (!params.categoryId) {
-      return new NextResponse("Необходим идентификатор категории.", {
+      return new NextResponse('Необходим идентификатор категории.', {
         status: 400,
       });
     }
@@ -56,7 +56,7 @@ export async function DELETE(
     });
 
     if (!storeByUserId) {
-      return new NextResponse("Не авторизованный доступ", { status: 405 });
+      return new NextResponse('Не авторизованный доступ', { status: 405 });
     }
 
     const category = await prismadb.category.delete({
@@ -67,8 +67,8 @@ export async function DELETE(
 
     return NextResponse.json(category);
   } catch (error) {
-    console.log("[CATEGORY_DELETE]", error);
-    return new NextResponse("Ошибка сервера", { status: 500 });
+    console.log('[CATEGORY_DELETE]', error);
+    return new NextResponse('Ошибка сервера', { status: 500 });
   }
 }
 
@@ -85,23 +85,23 @@ export async function PATCH(
     const { name, billboardId } = body;
 
     if (!userId) {
-      return new NextResponse("Пользователь не аутентифицирован", {
+      return new NextResponse('Пользователь не аутентифицирован', {
         status: 403,
       });
     }
 
     if (!billboardId) {
-      return new NextResponse("Необходим идентификатор билборда.", {
+      return new NextResponse('Необходим идентификатор билборда.', {
         status: 400,
       });
     }
 
     if (!name) {
-      return new NextResponse("Укажите название.", { status: 400 });
+      return new NextResponse('Укажите название.', { status: 400 });
     }
 
     if (!params.categoryId) {
-      return new NextResponse("Необходим идентификатор категории.", {
+      return new NextResponse('Необходим идентификатор категории.', {
         status: 400,
       });
     }
@@ -114,7 +114,7 @@ export async function PATCH(
     });
 
     if (!storeByUserId) {
-      return new NextResponse("Не авторизованный доступ", { status: 405 });
+      return new NextResponse('Не авторизованный доступ', { status: 405 });
     }
 
     const category = await prismadb.category.update({
@@ -129,7 +129,7 @@ export async function PATCH(
 
     return NextResponse.json(category);
   } catch (error) {
-    console.log("[CATEGORY_PATCH]", error);
-    return new NextResponse("Ошибка сервера", { status: 500 });
+    console.log('[CATEGORY_PATCH]', error);
+    return new NextResponse('Ошибка сервера', { status: 500 });
   }
 }

@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "react-hot-toast";
+import axios from 'axios';
+import { Copy, Edit, MoreHorizontal, Trash } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
 
-import { AlertModal } from "@/components/modals/alert-modal";
-import { Button } from "@/components/ui/button";
+import { AlertModal } from '@/components/modals/alert-modal';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 
-import type { ProductColumn } from "./columns";
+import type { ProductColumn } from './columns';
 
 interface CellActionProperties {
   data: ProductColumn;
@@ -32,10 +32,10 @@ export const CellAction: React.FC<CellActionProperties> = ({ data }) => {
     try {
       setLoading(true);
       await axios.delete(`/api/${parameters.storeId}/products/${data.id}`);
-      toast.success("Товар обновлен.");
+      toast.success('Товар обновлен.');
       router.refresh();
     } catch {
-      toast.error("Что-то пошло не так");
+      toast.error('Что-то пошло не так');
     } finally {
       setLoading(false);
       setOpen(false);
@@ -44,7 +44,7 @@ export const CellAction: React.FC<CellActionProperties> = ({ data }) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success("Идентификатор товара скопирован в буфер обмена.");
+    toast.success('Идентификатор товара скопирован в буфер обмена.');
   };
 
   return (
@@ -57,7 +57,10 @@ export const CellAction: React.FC<CellActionProperties> = ({ data }) => {
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="size-8 p-0">
+          <Button
+            variant="ghost"
+            className="size-8 p-0"
+          >
             <span className="sr-only">Открыть меню</span>
             <MoreHorizontal className="size-4" />
           </Button>

@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Check, ChevronsUpDown, PlusCircle, Store } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import * as React from "react";
+import { Check, ChevronsUpDown, PlusCircle, Store } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import * as React from 'react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Command,
   CommandEmpty,
@@ -13,10 +13,10 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useStoreModal } from "@/hooks/use-store-modal";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useStoreModal } from '@/hooks/use-store-modal';
+import { cn } from '@/lib/utils';
 
 type PopoverTriggerProperties = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
 
@@ -44,7 +44,10 @@ export default function StoreSwitcher({ className, items = [] }: StoreSwitcherPr
   };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover
+      open={open}
+      onOpenChange={setOpen}
+    >
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -52,7 +55,7 @@ export default function StoreSwitcher({ className, items = [] }: StoreSwitcherPr
           role="combobox"
           aria-expanded={open}
           aria-label="Выбрать магазин"
-          className={cn("w-[200px] justify-between", className)}
+          className={cn('w-[200px] justify-between', className)}
         >
           <Store className="mr-2 size-4" />
           {currentStore?.label}
@@ -75,8 +78,8 @@ export default function StoreSwitcher({ className, items = [] }: StoreSwitcherPr
                   {store.label}
                   <Check
                     className={cn(
-                      "ml-auto size-4",
-                      currentStore?.value === store.value ? "opacity-100" : "opacity-0",
+                      'ml-auto size-4',
+                      currentStore?.value === store.value ? 'opacity-100' : 'opacity-0',
                     )}
                   />
                 </CommandItem>

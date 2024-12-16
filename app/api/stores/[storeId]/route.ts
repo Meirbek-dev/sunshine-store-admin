@@ -1,7 +1,7 @@
-import { auth } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { auth } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
-import prismadb from "@/lib/prismadb";
+import prismadb from '@/lib/prismadb';
 
 export async function PATCH(request: Request, props: { params: Promise<{ storeId: string }> }) {
   const params = await props.params;
@@ -12,17 +12,17 @@ export async function PATCH(request: Request, props: { params: Promise<{ storeId
     const { name } = body;
 
     if (!userId) {
-      return new NextResponse("Пользователь не аутентифицирован", {
+      return new NextResponse('Пользователь не аутентифицирован', {
         status: 403,
       });
     }
 
     if (!name) {
-      return new NextResponse("Необходимо ввести имя", { status: 400 });
+      return new NextResponse('Необходимо ввести имя', { status: 400 });
     }
 
     if (!params.storeId) {
-      return new NextResponse("Необходимо ввести имя ID магазина", {
+      return new NextResponse('Необходимо ввести имя ID магазина', {
         status: 400,
       });
     }
@@ -39,8 +39,8 @@ export async function PATCH(request: Request, props: { params: Promise<{ storeId
 
     return NextResponse.json(store);
   } catch (error) {
-    console.log("[STORE_PATCH]", error);
-    return new NextResponse("Ошибка сервера", { status: 500 });
+    console.log('[STORE_PATCH]', error);
+    return new NextResponse('Ошибка сервера', { status: 500 });
   }
 }
 
@@ -50,13 +50,13 @@ export async function DELETE(request: Request, props: { params: Promise<{ storeI
     const { userId }: { userId: string | null } = await auth();
 
     if (!userId) {
-      return new NextResponse("Пользователь не аутентифицирован", {
+      return new NextResponse('Пользователь не аутентифицирован', {
         status: 403,
       });
     }
 
     if (!params.storeId) {
-      return new NextResponse("Необходим идентификатор магазина.", {
+      return new NextResponse('Необходим идентификатор магазина.', {
         status: 400,
       });
     }
@@ -70,7 +70,7 @@ export async function DELETE(request: Request, props: { params: Promise<{ storeI
 
     return NextResponse.json(store);
   } catch (error) {
-    console.log("[STORE_DELETE]", error);
-    return new NextResponse("Ошибка сервера", { status: 500 });
+    console.log('[STORE_DELETE]', error);
+    return new NextResponse('Ошибка сервера', { status: 500 });
   }
 }

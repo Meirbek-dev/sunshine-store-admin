@@ -1,16 +1,11 @@
-import { useEffect, useState } from "react";
-
+import { useIsClient } from './use-is-client';
 export const useOrigin = () => {
-  const [mounted, setMounted] = useState(false);
+  const isClient = useIsClient();
   const origin =
-    typeof window !== "undefined" && window.location.origin ? window.location.origin : "";
+    typeof window !== 'undefined' && window.location.origin ? window.location.origin : '';
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return "";
+  if (!isClient) {
+    return '';
   }
 
   return origin;

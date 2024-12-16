@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { ImagePlus, Trash } from "lucide-react";
-import { CldUploadWidget } from "next-cloudinary";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { ImagePlus, Trash } from 'lucide-react';
+import { CldUploadWidget } from 'next-cloudinary';
+import Image from 'next/image';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
+import { useIsClient } from '@/hooks/use-is-client';
 
 interface ImageUploadProperties {
   disabled?: boolean;
@@ -15,17 +15,13 @@ interface ImageUploadProperties {
 }
 
 const ImageUpload: React.FC<ImageUploadProperties> = ({ disabled, onChange, onRemove, value }) => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isClient = useIsClient();
 
   const onSuccess = (result: any) => {
     onChange(result.info.secure_url);
   };
 
-  if (!isMounted) {
+  if (!isClient) {
     return null;
   }
 
@@ -33,13 +29,26 @@ const ImageUpload: React.FC<ImageUploadProperties> = ({ disabled, onChange, onRe
     <div>
       <div className="mb-4 flex items-center gap-4">
         {value.map((url) => (
-          <div key={url} className="relative size-[200px] overflow-hidden rounded-md">
+          <div
+            key={url}
+            className="relative size-[200px] overflow-hidden rounded-md"
+          >
             <div className="absolute right-2 top-2 z-10">
-              <Button type="button" onClick={() => onRemove(url)} variant="destructive" size="sm">
+              <Button
+                type="button"
+                onClick={() => onRemove(url)}
+                variant="destructive"
+                size="sm"
+              >
                 <Trash className="size-4" />
               </Button>
             </div>
-            <Image fill className="object-cover" alt="Изображение" src={url} />
+            <Image
+              fill
+              className="object-cover"
+              alt="Изображение"
+              src={url}
+            />
           </div>
         ))}
       </div>
@@ -54,7 +63,12 @@ const ImageUpload: React.FC<ImageUploadProperties> = ({ disabled, onChange, onRe
           };
 
           return (
-            <Button type="button" disabled={disabled} variant="secondary" onClick={onClick}>
+            <Button
+              type="button"
+              disabled={disabled}
+              variant="secondary"
+              onClick={onClick}
+            >
               <ImagePlus className="mr-2 size-4" />
               Загрузить изображение
             </Button>
