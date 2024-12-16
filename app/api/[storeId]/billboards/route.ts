@@ -1,81 +1,100 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
 
 import prismadb from '@/lib/prismadb';
+import { errorResponses } from '@/lib/error-responses';
+
+// Схема валидации для создания билборда
+const billboardSchema = z.object({
+  label: z.string().min(1, 'Укажите метку'),
+  imageUrl: z.string().url('Укажите корректный URL изображения'),
+});
 
 export async function POST(request: Request, props: { params: Promise<{ storeId: string }> }) {
-  const params = await props.params;
   try {
-    const { userId }: { userId: string | null } = await auth();
-
-    const body = await request.json();
-
-    const { label, imageUrl } = body;
+    const params = await props.params;
+    const { userId } = await auth();
 
     if (!userId) {
-      return new NextResponse('Пользователь не аутентифицирован', {
-        status: 403,
-      });
-    }
-
-    if (!label) {
-      return new NextResponse('Укажите метку', { status: 400 });
-    }
-
-    if (!imageUrl) {
-      return new NextResponse('Необходимо URL изображения', { status: 400 });
+      return errorResponses.unauthorized();
     }
 
     if (!params.storeId) {
-      return new NextResponse('Необходим идентификатор магазина.', {
-        status: 400,
+      return errorResponses.badRequest('Необходим идентификатор магазина');
+    }
+
+    const body = await request.json();
+    const validationResult = billboardSchema.safeParse(body);
+
+    if (!validationResult.success) {
+      return errorResponses.validationError(validationResult.error.message);
+    }
+
+    // Используем транзакцию для проверки прав и создания билборда
+    const billboard = await prismadb.$transaction(async (tx) => {
+      const storeByUserId = await tx.store.findFirst({
+        where: {
+          id: params.storeId,
+          userId,
+        },
+        select: { id: true },
       });
-    }
 
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
+      if (!storeByUserId) {
+        throw new Error('Не авторизованный доступ');
+      }
+
+      return tx.billboard.create({
+        data: {
+          ...validationResult.data,
+          storeId: params.storeId,
+        },
+        select: {
+          id: true,
+          label: true,
+          imageUrl: true,
+          createdAt: true,
+        },
+      });
     });
 
-    if (!storeByUserId) {
-      return new NextResponse('Не авторизованный доступ', { status: 405 });
-    }
-
-    const billboard = await prismadb.billboard.create({
-      data: {
-        label,
-        imageUrl,
-        storeId: params.storeId,
-      },
-    });
-
-    return NextResponse.json(billboard);
+    return NextResponse.json(billboard, { status: 201 });
   } catch (error) {
-    console.log('[BILLBOARDS_POST]', error);
-    return new NextResponse('Ошибка сервера', { status: 500 });
+    console.error('[BILLBOARDS_POST]', error);
+    if (error instanceof Error && error.message === 'Не авторизованный доступ') {
+      return errorResponses.forbidden();
+    }
+    return errorResponses.serverError(error);
   }
 }
 
 export async function GET(request: Request, props: { params: Promise<{ storeId: string }> }) {
-  const params = await props.params;
   try {
+    const params = await props.params;
+
     if (!params.storeId) {
-      return new NextResponse('Необходим идентификатор магазина.', {
-        status: 400,
-      });
+      return errorResponses.badRequest('Необходим идентификатор магазина');
     }
 
     const billboards = await prismadb.billboard.findMany({
       where: {
         storeId: params.storeId,
       },
+      select: {
+        id: true,
+        label: true,
+        imageUrl: true,
+        createdAt: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
 
     return NextResponse.json(billboards);
   } catch (error) {
-    console.log('[BILLBOARDS_GET]', error);
-    return new NextResponse('Ошибка сервера', { status: 500 });
+    console.error('[BILLBOARDS_GET]', error);
+    return errorResponses.serverError(error);
   }
 }
