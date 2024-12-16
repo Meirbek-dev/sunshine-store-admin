@@ -24,9 +24,10 @@ import { Heading } from '@/components/ui/heading';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 
+// Схема валидации формы
 const formSchema = z.object({
-  name: z.string().min(1),
-  value: z.string().min(1),
+  name: z.string().min(1, 'Укажите название размера'),
+  value: z.string().min(1, 'Укажите значение размера'),
 });
 
 type SizeFormValues = z.infer<typeof formSchema>;
@@ -49,22 +50,29 @@ export const SizeForm: React.FC<SizeFormProperties> = ({ initialData }) => {
 
   const form = useForm<SizeFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData ?? {
-      name: '',
+    defaultValues: {
+      name: initialData?.name ?? '',
+      value: initialData?.value ?? '',
     },
   });
 
   const onSubmit = async (data: SizeFormValues) => {
     try {
       setLoading(true);
-      await (initialData
-        ? axios.patch(`/api/${parameters.storeId}/sizes/${parameters.sizeId}`, data)
-        : axios.post(`/api/${parameters.storeId}/sizes`, data));
+      if (initialData) {
+        await axios.patch(`/api/${parameters.storeId}/sizes/${parameters.sizeId}`, data);
+      } else {
+        await axios.post(`/api/${parameters.storeId}/sizes`, data);
+      }
       router.push(`/${parameters.storeId}/sizes`);
       router.refresh();
       toast.success(toastMessage);
-    } catch {
-      toast.error('Что-то пошло не так.');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.error?.message ?? 'Что-то пошло не так.');
+      } else {
+        toast.error('Что-то пошло не так.');
+      }
     } finally {
       setLoading(false);
     }
@@ -77,8 +85,12 @@ export const SizeForm: React.FC<SizeFormProperties> = ({ initialData }) => {
       router.push(`/${parameters.storeId}/sizes`);
       router.refresh();
       toast.success('Размер удален.');
-    } catch {
-      toast.error('Убедитесь, что вы удалили все товары этого размера.');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.error?.message ?? 'Убедитесь, что вы удалили все товары этого размера.');
+      } else {
+        toast.error('Убедитесь, что вы удалили все товары этого размера.');
+      }
     } finally {
       setLoading(false);
       setOpen(false);
@@ -94,10 +106,7 @@ export const SizeForm: React.FC<SizeFormProperties> = ({ initialData }) => {
         loading={loading}
       />
       <div className="flex items-center justify-between">
-        <Heading
-          title={title}
-          description={description}
-        />
+        <Heading title={title} description={description} />
         {initialData && (
           <Button
             disabled={loading}
